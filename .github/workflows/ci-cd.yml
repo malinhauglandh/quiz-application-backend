@@ -1,0 +1,39 @@
+name: CI/CD Workflow
+
+on:
+  push:
+    branches-ignore:
+      - master  # Ignore master since it's used rarely
+  pull_request:
+    branches:
+      - dev  # Trigger on PRs to dev
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    # Setup environment
+    - name: Set up JDK
+      if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/master'
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
+        distribution: 'OpenJDK'
+        
+    # Run tests and other checks here
+    - name: Run Tests
+      # run: ./mvnw test 
+    
+    # Build Docker image on dev and master branch
+    - name: Build and Push Docker image
+      if: github.event_name == 'push' && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/master')
+      run: |
+        docker build -t fullstack1/quiz-application-backend:${{ github.sha }} -t fullstack1/myapp:${{ github.ref_name }} .
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        docker push fullstack1/quiz-application-backend:${{ github.sha }}
+        docker push fullstack1/quiz-application-backend:${{ github.ref_name }}
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
