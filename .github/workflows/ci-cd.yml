@@ -24,7 +24,7 @@ jobs:
         
     # Run tests and other checks here
     - name: Run Tests
-      # run: ./mvnw test 
+      run: echo "No tests specified"
     
     # Build Docker image on dev and master branch
     - name: Build and Push Docker image
