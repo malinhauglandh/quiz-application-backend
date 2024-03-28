@@ -16,18 +16,26 @@ jobs:
     
     # Setup environment
     - name: Set up JDK
-      if: github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/master'
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
-        
-    # Run tests and other checks here
+    
+    # Cache Maven packages to speed up builds
+    - name: Cache Maven packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+
+    # Code Linting with Checkstyle
+    - name: Run Checkstyle
+      run: mvn checkstyle:check
+    
+    # Placeholder for running tests
     - name: Run Tests
       run: echo "No tests specified"
-      
-    - name: List files in the repository
-      run: ls -alh
     
     # Build Docker image on dev and master branch
     - name: Build and Push Docker image
