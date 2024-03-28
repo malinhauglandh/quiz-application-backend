@@ -20,8 +20,6 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-    - name: Set up Maven
-      
     
     # Cache Maven packages to speed up builds
     - name: Cache Maven packages
