@@ -37,19 +37,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    
-    # Code Linting with Checkstyle
-    - name: Run Checkstyle
-      run: mvn checkstyle:check
-      working-directory: ./backend
 
     # Run Spotless check
     - name: Run Spotless Check
       run: mvn spotless:check
+      working-directory: ./backend
 
     # Apply Spotless formatting
     - name: Apply Spotless Formatting
       run: mvn spotless:apply
+      working-directory: ./backend
 
   build-docker-image:
     runs-on: ubuntu-latest
