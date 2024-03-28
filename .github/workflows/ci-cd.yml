@@ -25,6 +25,9 @@ jobs:
     # Run tests and other checks here
     - name: Run Tests
       run: echo "No tests specified"
+      
+    - name: List files in the repository
+      run: ls -alh
     
     # Build Docker image on dev and master branch
     - name: Build and Push Docker image
@@ -37,7 +40,4 @@ jobs:
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
-    - name: List files in the repository
-      run: ls -alh
 
