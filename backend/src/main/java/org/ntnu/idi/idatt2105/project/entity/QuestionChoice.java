@@ -1,10 +1,16 @@
 package org.ntnu.idi.idatt2105.project.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "question_choices")
 public class QuestionChoice {
     @Id
@@ -26,7 +32,4 @@ public class QuestionChoice {
 
     @OneToMany(mappedBy = "questionChoice", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserAnswer> userAnswerList;
-
-    public QuestionChoice() {
-    }
 }

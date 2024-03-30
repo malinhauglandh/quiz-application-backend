@@ -2,6 +2,7 @@ package org.ntnu.idi.idatt2105.project.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "category")
 public class Category {
     @Id
@@ -20,7 +22,4 @@ public class Category {
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Quiz> quizList;
-
-    public Category() {
-    }
 }

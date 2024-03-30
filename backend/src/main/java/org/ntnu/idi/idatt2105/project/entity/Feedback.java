@@ -2,6 +2,7 @@ package org.ntnu.idi.idatt2105.project.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "feedback")
 public class Feedback {
     @Id
@@ -27,7 +29,4 @@ public class Feedback {
 
     @Column(name = "email")
     private String email;
-
-    public Feedback() {
-    }
 }

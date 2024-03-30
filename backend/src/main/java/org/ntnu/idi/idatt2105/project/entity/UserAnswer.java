@@ -2,12 +2,14 @@ package org.ntnu.idi.idatt2105.project.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "user_answers")
+@NoArgsConstructor
 public class UserAnswer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +22,4 @@ public class UserAnswer {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "quiz_choice_id")
     private QuestionChoice questionChoice;
-
-    public UserAnswer() {
-    }
 }

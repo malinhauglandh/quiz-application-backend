@@ -3,6 +3,7 @@ package org.ntnu.idi.idatt2105.project.entity;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;
@@ -12,6 +13,7 @@ import java.util.Set;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "user")
 public class User {
     @Id
@@ -28,6 +30,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CompletedQuiz> completedQuizzes = new HashSet<>();
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "favorites",
@@ -35,6 +40,4 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "quiz_id")}
     )
     private Set<Quiz> favoriteQuizzes = new HashSet<>();
-
-    public User(){}
 }

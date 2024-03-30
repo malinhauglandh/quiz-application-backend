@@ -2,6 +2,7 @@ package org.ntnu.idi.idatt2105.project.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "quiz")
 public class Quiz {
     @Id
@@ -34,14 +36,14 @@ public class Quiz {
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questionList;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CompletedQuiz> completedQuizList;
+
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "quiz_users",
             joinColumns = {@JoinColumn(name = "quiz_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
     private List<User> users;
-
-    public Quiz() {
-    }
 }

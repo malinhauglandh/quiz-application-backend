@@ -2,36 +2,32 @@ package org.ntnu.idi.idatt2105.project.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "completed_quizzes")
 public class CompletedQuiz {
-    @Getter
-    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int completedQuizId;
 
-    @Getter
-    @Setter
     @Column(name = "score")
     private int score;
 
-    @Getter
-    @Setter
-    @ManyToMany
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private List<User> user;
+    private User user;
 
-    @Getter
-    @Setter
-    @ManyToMany
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "quiz_id")
-    private List<Quiz> quiz;
+    private Quiz quiz;
 
-    public CompletedQuiz() {
-    }
+    @OneToMany(mappedBy = "completedQuiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserAnswer> userAnswerList;
 }

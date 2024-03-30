@@ -1,7 +1,9 @@
 package org.ntnu.idi.idatt2105.project.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @Table(name = "question")
 public class Question {
     @Id
@@ -35,6 +38,12 @@ public class Question {
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QuestionChoice> questionChoiceList;
 
-    public Question() {
+    public Question(String questionText, String tag, String multimedia, Quiz quiz, QuestionType questionType, List<QuestionChoice> questionChoiceList) {
+        this.questionText = questionText;
+        this.tag = tag;
+        this.multimedia = multimedia;
+        this.quiz = quiz;
+        this.questionType = questionType;
+        this.questionChoiceList = questionChoiceList;
     }
 }
