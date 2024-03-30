@@ -43,11 +43,6 @@ jobs:
       run: mvn spotless:check
       working-directory: ./backend
 
-    # Apply Spotless formatting
-    - name: Apply Spotless Formatting
-      run: mvn spotless:apply
-      working-directory: ./backend
-
   build-docker-image:
     runs-on: ubuntu-latest
     steps:
