@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -33,17 +34,24 @@ public class Quiz {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creator_id")
+    private User creator;
+
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Question> questionList;
+    private Set<Question> questionList;
 
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CompletedQuiz> completedQuizList;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "quiz_users",
+            name = "collaborating_users",
             joinColumns = {@JoinColumn(name = "quiz_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
-    private List<User> users;
+    private Set<User> collaboratingUsers;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "favoriteQuizzes")
+    private Set<User> favorites;
 }

@@ -33,6 +33,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CompletedQuiz> completedQuizzes = new HashSet<>();
 
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Quiz> createdQuizzes = new HashSet<>();
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "favorites",
@@ -40,4 +43,7 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "quiz_id")}
     )
     private Set<Quiz> favoriteQuizzes = new HashSet<>();
+
+    @ManyToMany(mappedBy = "collaboratingUsers")
+    private Set<Quiz> collaboratingQuizzes = new HashSet<>();
 }

@@ -37,13 +37,4 @@ public class Question {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QuestionChoice> questionChoiceList;
-
-    public Question(String questionText, String tag, String multimedia, Quiz quiz, QuestionType questionType, List<QuestionChoice> questionChoiceList) {
-        this.questionText = questionText;
-        this.tag = tag;
-        this.multimedia = multimedia;
-        this.quiz = quiz;
-        this.questionType = questionType;
-        this.questionChoiceList = questionChoiceList;
-    }
 }
