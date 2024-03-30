@@ -1,13 +1,12 @@
 package org.ntnu.idi.idatt2105.project.entity;
 
 import jakarta.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -40,8 +39,7 @@ public class User {
     @JoinTable(
             name = "favorites",
             joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "quiz_id")}
-    )
+            inverseJoinColumns = {@JoinColumn(name = "quiz_id")})
     private Set<Quiz> favoriteQuizzes = new HashSet<>();
 
     @ManyToMany(mappedBy = "collaboratingUsers")

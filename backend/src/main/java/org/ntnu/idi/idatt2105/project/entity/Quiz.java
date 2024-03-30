@@ -1,12 +1,11 @@
 package org.ntnu.idi.idatt2105.project.entity;
 
 import jakarta.persistence.*;
+import java.util.List;
+import java.util.Set;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -48,8 +47,7 @@ public class Quiz {
     @JoinTable(
             name = "collaborating_users",
             joinColumns = {@JoinColumn(name = "quiz_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id")}
-    )
+            inverseJoinColumns = {@JoinColumn(name = "user_id")})
     private Set<User> collaboratingUsers;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "favoriteQuizzes")
