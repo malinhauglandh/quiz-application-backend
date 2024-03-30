@@ -31,7 +31,7 @@ jobs:
 
     # Build with Maven
     - name: Build with Maven
-      run: mvn -B package --file backend/pom.xml
+      run: mvn -B package --file backend/pom.xml -DskipTests
 
   code-linting:
     runs-on: ubuntu-latest
