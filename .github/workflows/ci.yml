@@ -1,4 +1,4 @@
-name: CI/CD Workflow
+name: CI Workflow
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - dev  # Trigger on PRs to dev
 
 jobs:
-  build-and-test:
+  build-with-maven:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -29,13 +29,29 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-m2
 
-    # Code Linting with Checkstyle
-    - name: Run Checkstyle
-      run: mvn checkstyle:check
-    
-    # Placeholder for running tests
-    - name: Run Tests
-      run: echo "No tests specified"
+    # Build with Maven
+    - name: Build with Maven
+      run: mvn -B package --file backend/pom.xml
+
+  code-linting:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    # Run Spotless check
+    - name: Run Spotless Check
+      run: mvn spotless:check
+      working-directory: ./backend
+
+    # Apply Spotless formatting
+    - name: Apply Spotless Formatting
+      run: mvn spotless:apply
+      working-directory: ./backend
+
+  build-docker-image:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
     
     # Build Docker image on dev and master branch
     - name: Build and Push Docker image
@@ -48,5 +64,11 @@ jobs:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
 
-
+    # Placeholder for running tests
+    - name: Run Tests
+      run: echo "No tests specified"
