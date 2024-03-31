@@ -1,4 +1,4 @@
-qpackage org.ntnu.idi.idatt2105.project.service;
+package org.ntnu.idi.idatt2105.project.service;
 
 import org.ntnu.idi.idatt2105.project.model.UserLogin;
 import org.ntnu.idi.idatt2105.project.repository.UserRepository;
