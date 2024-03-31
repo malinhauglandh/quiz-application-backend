@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/** Class representing a question type in the application. */
 @Entity
 @Getter
 @Setter

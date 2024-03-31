@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/** Class representing a quiz in the application. */
 @Entity
 @Getter
 @Setter
