@@ -1,5 +1,7 @@
 package org.ntnu.idi.idatt2105.project.service;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.hibernate.exception.ConstraintViolationException;
 import org.ntnu.idi.idatt2105.project.entity.User;
 import org.ntnu.idi.idatt2105.project.exception.ExistingUserException;
@@ -7,6 +9,7 @@ import org.ntnu.idi.idatt2105.project.exception.InvalidTokenException;
 import org.ntnu.idi.idatt2105.project.model.UserLogin;
 import org.ntnu.idi.idatt2105.project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,20 +42,23 @@ public class UserService {
      * @return true if the user was created
      */
     public boolean createUser(UserLogin userLogin) {
-        try{
+        try {
             String encodedPassword = passwordEncoder.encode(userLogin.getPassword());
             User newUser = new User();
             newUser.setUsername(userLogin.getUsername());
             newUser.setPassword(encodedPassword);
             newUser.setEmail(userLogin.getEmail());
             userRepository.save(newUser);
-        } catch (Exception e) {
-            if(e.getCause() instanceof ConstraintViolationException) {
-                String constraintName = ((ConstraintViolationException) e.getCause()).getConstraintName();
-                if("UK_user_email".equals(constraintName)) {
-                    throw new ExistingUserException("Email already exists: " + userLogin.getEmail());
-                } else if("UK_user_username".equals(constraintName)) {
-                    throw new ExistingUserException("Username already exists: " + userLogin.getUsername());
+        } catch (DataIntegrityViolationException e) {
+            if (e.getCause() instanceof ConstraintViolationException) {
+                String constraintName =
+                        ((ConstraintViolationException) e.getCause()).getConstraintName();
+                if ("UK_user_email".equals(constraintName)) {
+                    throw new ExistingUserException(
+                            "Email already exists: " + userLogin.getEmail());
+                } else if ("UK_user_username".equals(constraintName)) {
+                    throw new ExistingUserException(
+                            "Username already exists: " + userLogin.getUsername());
                 }
             }
             throw e;
@@ -67,14 +73,20 @@ public class UserService {
      * @param userLogin The user login information
      * @return A JWT token
      */
-    public String login(UserLogin userLogin) {
+    public Map<String, String> login(UserLogin userLogin) {
         User user =
                 userRepository
                         .findByUsername(userLogin.getUsername())
                         .orElseThrow(() -> new InvalidTokenException("User not found"));
 
         if (passwordEncoder.matches(userLogin.getPassword(), user.getPassword())) {
-            return tokenService.generateToken(user.getUsername());
+            String accessToken = tokenService.generateAccessToken(user.getUsername());
+            String refreshToken = tokenService.generateRefreshToken(user.getUsername());
+
+            Map<String, String> tokens = new HashMap<>();
+            tokens.put("accessToken", accessToken);
+            tokens.put("refreshToken", refreshToken);
+            return tokens;
         } else {
             throw new InvalidTokenException("Invalid username/password combination");
         }

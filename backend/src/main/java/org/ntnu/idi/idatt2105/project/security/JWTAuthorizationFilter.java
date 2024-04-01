@@ -14,7 +14,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
 /** Filter for handling JWT authorization. */
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
-    @Autowired private TokenService tokenService;
+    private final TokenService tokenService;
+
+    @Autowired
+    public JWTAuthorizationFilter(TokenService tokenService) {
+        this.tokenService = tokenService;
+    }
 
     /**
      * Filter for handling JWT authorization.

@@ -14,10 +14,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "user", uniqueConstraints = {
-        @UniqueConstraint(name = "UK_user_email", columnNames = "email"),
-        @UniqueConstraint(name = "UK_user_username", columnNames = "username")
-})
+@Table(
+        name = "user",
+        uniqueConstraints = {
+            @UniqueConstraint(name = "UK_user_email", columnNames = "email"),
+            @UniqueConstraint(name = "UK_user_username", columnNames = "username")
+        })
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

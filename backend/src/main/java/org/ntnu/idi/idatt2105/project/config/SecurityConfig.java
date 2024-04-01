@@ -1,6 +1,8 @@
 package org.ntnu.idi.idatt2105.project.config;
 
 import org.ntnu.idi.idatt2105.project.security.JWTAuthorizationFilter;
+import org.ntnu.idi.idatt2105.project.service.TokenService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,6 +17,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Autowired private TokenService tokenService;
 
     /**
      * Bean for security filter chain.
@@ -45,7 +49,8 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilterBefore(
-                        new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+                        new JWTAuthorizationFilter(tokenService),
+                        UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -57,5 +62,10 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public JWTAuthorizationFilter jwtAuthorizationFilter(TokenService tokenService) {
+        return new JWTAuthorizationFilter(tokenService);
     }
 }

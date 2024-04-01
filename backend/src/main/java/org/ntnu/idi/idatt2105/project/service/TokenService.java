@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Date;
 import org.ntnu.idi.idatt2105.project.exception.InvalidTokenException;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,9 @@ public class TokenService {
     @Value("${jwt.expiration.time}")
     private long expirationTime;
 
+    @Value("${jwt.refresh.expiration.time}")
+    private long refreshExpirationTime;
+
     private final UserDetailService userDetailService;
 
     public TokenService(UserDetailService userDetailService) {
@@ -36,7 +40,7 @@ public class TokenService {
      * @param subject The user identifier
      * @return A JWT token
      */
-    public String generateToken(String subject) {
+    public String generateToken(String subject, long expirationTime) {
         Date issuedAt = new Date();
         Date expiresAt = new Date(issuedAt.getTime() + expirationTime);
 
@@ -45,6 +49,26 @@ public class TokenService {
                 .withIssuedAt(issuedAt)
                 .withExpiresAt(expiresAt)
                 .sign(Algorithm.HMAC512(secretKey));
+    }
+
+    /**
+     * Generate an access token for a given subject (user identifier).
+     *
+     * @param subject The user identifier
+     * @return A JWT access token
+     */
+    public String generateAccessToken(String subject) {
+        return generateToken(subject, expirationTime);
+    }
+
+    /**
+     * Generate a refresh token for a given subject (user identifier).
+     *
+     * @param subject The user identifier
+     * @return A JWT refresh token
+     */
+    public String generateRefreshToken(String subject) {
+        return generateToken(subject, refreshExpirationTime);
     }
 
     /**
@@ -99,5 +123,18 @@ public class TokenService {
         } catch (JWTVerificationException exception) {
             throw new InvalidTokenException("The token is invalid or expired", exception);
         }
+    }
+
+    /**
+     * Refresh a token.
+     *
+     * @param request The HTTP request
+     * @return A new JWT token
+     */
+    public String refreshToken(HttpServletRequest request) {
+        String authorizationHeader = request.getHeader("Authorization");
+        String token = authorizationHeader.substring(7);
+        String username = validateTokenAndGetSubject(token);
+        return generateAccessToken(username);
     }
 }
