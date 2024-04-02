@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/quizzes")
+@CrossOrigin(origins = "*")
 public class QuizController {
 
   private final QuizService quizService;
