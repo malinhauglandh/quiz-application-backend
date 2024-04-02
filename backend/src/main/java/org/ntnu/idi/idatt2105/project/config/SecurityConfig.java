@@ -40,6 +40,8 @@ public class SecurityConfig {
                 .permitAll()
                 .requestMatchers("/api/createUser")
                 .permitAll()
+                .requestMatchers("/api/categories/allCategories")
+                .permitAll()
                 .requestMatchers("/")
                 .permitAll()
                 .anyRequest()
