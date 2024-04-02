@@ -42,6 +42,8 @@ public class SecurityConfig {
                 .permitAll()
                 .requestMatchers("/api/categories/allCategories")
                 .permitAll()
+                .requestMatchers("quizzes/**")
+                .permitAll()
                 .requestMatchers("/")
                 .permitAll()
                 .anyRequest()
