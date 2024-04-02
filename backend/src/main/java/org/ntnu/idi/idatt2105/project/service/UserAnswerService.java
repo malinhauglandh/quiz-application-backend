@@ -21,7 +21,7 @@ public class UserAnswerService {
     return userAnswerRepository.save(userAnswer);
   }
 
-  public List<UserAnswer> getUserAnswersByUserId(Long userId) {
+  /*public List<UserAnswer> getUserAnswersByUserId(Long userId) {
     return userAnswerRepository.findByUserId(userId);
-  }
+  }*/
 }

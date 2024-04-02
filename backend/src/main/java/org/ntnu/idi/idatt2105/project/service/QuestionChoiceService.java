@@ -21,9 +21,9 @@ public class QuestionChoiceService {
     return questionChoiceRepository.save(questionChoice);
   }
 
-  public List<QuestionChoice> getChoicesByQuestionId(Long questionId) {
+  /*public List<QuestionChoice> getChoicesByQuestionId(Long questionId) {
     return questionChoiceRepository.findByQuestionId(questionId);
-  }
+  }*/
 
   // Additional methods for updating and deleting question choices
 }

@@ -20,18 +20,18 @@ public class QuestionChoiceController {
     this.questionChoiceService = questionChoiceService;
   }
 
-  @PostMapping
+  /*@PostMapping
   public ResponseEntity<QuestionChoice> addChoiceToQuestion(@PathVariable Long questionId, @RequestBody QuestionChoice choice) {
     choice.setQuestion(new Question(questionId));
     QuestionChoice addedChoice = questionChoiceService.addQuestionChoice(choice);
     return ResponseEntity.ok(addedChoice);
-  }
+  }*/
 
-  @GetMapping
+  /*@GetMapping
   public ResponseEntity<List<QuestionChoice>> getChoicesForQuestion(@PathVariable Long questionId) {
     List<QuestionChoice> choices = questionChoiceService.getChoicesByQuestionId(questionId);
     return ResponseEntity.ok(choices);
-  }
+  }*/
 
   // Additional endpoints for updating and deleting question choices
 }
