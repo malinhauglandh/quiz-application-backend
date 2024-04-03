@@ -2,7 +2,6 @@ package org.ntnu.idi.idatt2105.project.controller;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.ntnu.idi.idatt2105.project.entity.Category;
 import org.ntnu.idi.idatt2105.project.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
 
     private final CategoryService categoryService;
-    
+
     @Autowired
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
@@ -32,7 +31,7 @@ public class CategoryController {
     public ResponseEntity<Category> getCategory(@PathVariable Long id) {
         Optional<Category> category = categoryService.findCategoryById(id);
         return category.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                   .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping("/allCategories")

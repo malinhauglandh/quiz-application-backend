@@ -1,8 +1,7 @@
 package org.ntnu.idi.idatt2105.project.service;
 
-import java.util.Optional;
 import java.util.List;
-
+import java.util.Optional;
 import org.ntnu.idi.idatt2105.project.entity.Category;
 import org.ntnu.idi.idatt2105.project.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +30,4 @@ public class CategoryService {
     public List<Category> findAllCategories() {
         return categoryRepository.findAll();
     }
-    
 }
