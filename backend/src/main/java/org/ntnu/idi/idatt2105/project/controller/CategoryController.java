@@ -29,7 +29,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategory(@RequestBody Long id) {
+    public ResponseEntity<Category> getCategory(@PathVariable Long id) {
         Optional<Category> category = categoryService.findCategoryById(id);
         return category.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                    .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));

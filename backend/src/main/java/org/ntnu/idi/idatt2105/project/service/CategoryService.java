@@ -11,8 +11,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class CategoryService {
 
+    private final CategoryRepository categoryRepository;
+
     @Autowired
-    private CategoryRepository categoryRepository;
+    public CategoryService(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
     public Category createCategory(String categoryName) {
         Category category = new Category();
