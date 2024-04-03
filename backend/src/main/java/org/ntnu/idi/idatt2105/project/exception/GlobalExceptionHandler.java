@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 /** Global exception handler for the application. */
 @ControllerAdvice
@@ -40,5 +41,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ExistingUserException.class)
     public ResponseEntity<Object> handleExistingUserException(ExistingUserException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
+    /**
+     * Handles MaxUploadSizeExceededException.
+     *
+     * @param exc The exception that was thrown
+     * @return A response entity with the exception message and status code to the client
+     */
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<String> handleMaxSizeException(MaxUploadSizeExceededException exc) {
+        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("File too large!");
     }
 }
