@@ -1,6 +1,8 @@
 package org.ntnu.idi.idatt2105.project.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.ntnu.idi.idatt2105.project.dto.QuizDTO;
 import org.ntnu.idi.idatt2105.project.entity.Category;
 import org.ntnu.idi.idatt2105.project.entity.Quiz;
@@ -88,6 +90,39 @@ public class QuizController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to upload file: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/files/{fileName:.+}")
+    public ResponseEntity<byte[]> getFile(@PathVariable String fileName) {
+        return fileStorageService.loadFile(fileName);
+    }
+
+    @GetMapping("/user/{creatorId}")
+    public ResponseEntity<List<QuizDTO>> getQuizzesByCreator(@PathVariable Long creatorId) {
+        List<Quiz> quizzes = quizService.getQuizzesByCreatorId(creatorId);
+        List<QuizDTO> quizDTOs = quizzes.stream()
+                .map(this::convertToQuizDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(quizDTOs);
+    }
+
+    private QuizDTO convertToQuizDTO(Quiz quiz) {
+        if (quiz == null) {
+            return null;
+        }
+
+        QuizDTO dto = new QuizDTO();
+        dto.setQuizId((long) quiz.getQuizId());
+        dto.setQuizName(quiz.getQuizName());
+        dto.setQuizDescription(quiz.getQuizDescription());
+        dto.setDifficultyLevel(quiz.getDifficultyLevel());
+        dto.setMultimedia(quiz.getMultimedia());
+
+        dto.setCategoryId(quiz.getCategory() != null ? (long) quiz.getCategory().getCategoryId() : null);
+
+        dto.setCreatorId(quiz.getCreator() != null ? (long) quiz.getCreator().getUserId() : null);
+
+        return dto;
     }
 
     @GetMapping
