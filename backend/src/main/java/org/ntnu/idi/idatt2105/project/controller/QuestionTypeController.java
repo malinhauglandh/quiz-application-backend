@@ -28,7 +28,7 @@ public class QuestionTypeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<QuestionType> getQuestionTypeById(Long id) {
+    public ResponseEntity<QuestionType> getQuestionTypeById(@PathVariable Long id) {
         Optional<QuestionType> questiontype = questionTypeService.findTypeByID(id);
         return questiontype
                 .map(value -> new ResponseEntity<>(value, HttpStatus.OK))

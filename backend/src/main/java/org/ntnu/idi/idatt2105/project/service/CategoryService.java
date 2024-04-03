@@ -1,5 +1,6 @@
 package org.ntnu.idi.idatt2105.project.service;
 
+import java.util.List;
 import java.util.Optional;
 import org.ntnu.idi.idatt2105.project.entity.Category;
 import org.ntnu.idi.idatt2105.project.repository.CategoryRepository;
