@@ -2,7 +2,10 @@ package org.ntnu.idi.idatt2105.project.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import org.ntnu.idi.idatt2105.project.dto.CategoryDTO;
 import org.ntnu.idi.idatt2105.project.entity.Category;
+import org.ntnu.idi.idatt2105.project.repository.CategoryRepository;
 import org.ntnu.idi.idatt2105.project.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,10 +18,13 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
 
     private final CategoryService categoryService;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public CategoryController(CategoryService categoryService) {
+    public CategoryController(
+            CategoryService categoryService, CategoryRepository categoryRepository) {
         this.categoryService = categoryService;
+        this.categoryRepository = categoryRepository;
     }
 
     @PostMapping
@@ -35,8 +41,12 @@ public class CategoryController {
     }
 
     @GetMapping("/allCategories")
-    public ResponseEntity<List<Category>> getAllCategories() {
-        List<Category> categories = categoryService.findAllCategories();
-        return new ResponseEntity<>(categories, HttpStatus.OK);
+    public List<CategoryDTO> findAllCategories() {
+        return categoryRepository.findAll().stream()
+                .map(
+                        category ->
+                                new CategoryDTO(
+                                        category.getCategoryId(), category.getCategoryName()))
+                .collect(Collectors.toList());
     }
 }

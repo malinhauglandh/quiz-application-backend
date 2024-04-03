@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 public class QuestionTypeService {
     private final QuestionTypeRepository questionTypeRepository;
 
+    private final QuestionTypeRepository questionTypeRepository;
+
     @Autowired
     public QuestionTypeService(QuestionTypeRepository questionTypeRepository) {
         this.questionTypeRepository = questionTypeRepository;
