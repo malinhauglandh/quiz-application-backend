@@ -28,7 +28,10 @@ public class QuizController {
 
     @Autowired
     public QuizController(
-            QuizService quizService, CategoryService categoryService, UserService userService, FileStorageService fileStorageService) {
+            QuizService quizService,
+            CategoryService categoryService,
+            UserService userService,
+            FileStorageService fileStorageService) {
         this.quizService = quizService;
         this.categoryService = categoryService;
         this.userService = userService;
@@ -77,7 +80,8 @@ public class QuizController {
     }
 
     @PostMapping("/upload/{quizId}")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable int quizId) {
+    public ResponseEntity<String> uploadFile(
+            @RequestParam("file") MultipartFile file, @PathVariable int quizId) {
         try {
             fileStorageService.storeFile(file, quizId);
             return ResponseEntity.ok().body("File uploaded successfully and linked to the quiz!");
