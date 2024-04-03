@@ -27,15 +27,15 @@ public class Quiz {
     @Column(name = "multimedia")
     private String multimedia;
 
-    @Column(name = "difficulty_level")
+    @Column(name = "difficulty_level", nullable = false)
     private String difficultyLevel;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creator_id")
+    @JoinColumn(name = "creator_id", nullable = false)
     private User creator;
 
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)

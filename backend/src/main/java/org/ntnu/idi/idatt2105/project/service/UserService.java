@@ -2,6 +2,7 @@ package org.ntnu.idi.idatt2105.project.service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import org.hibernate.exception.ConstraintViolationException;
 import org.ntnu.idi.idatt2105.project.entity.User;
 import org.ntnu.idi.idatt2105.project.exception.ExistingUserException;
@@ -86,9 +87,14 @@ public class UserService {
             Map<String, String> tokens = new HashMap<>();
             tokens.put("accessToken", accessToken);
             tokens.put("refreshToken", refreshToken);
+            tokens.put("userId", String.valueOf(user.getUserId()));
             return tokens;
         } else {
             throw new InvalidTokenException("Invalid username/password combination");
         }
+    }
+
+    public Optional<User> findUserById(Long userId) {
+        return userRepository.findById(userId);
     }
 }
