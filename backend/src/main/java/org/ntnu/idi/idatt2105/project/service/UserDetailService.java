@@ -14,7 +14,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailService implements UserDetailsService {
 
-    @Autowired private UserRepository userRepository; // Assume you have a UserRepository
+    private final UserRepository userRepository; // Assume you have a UserRepository
+
+    @Autowired
+    public UserDetailService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     /**
      * Load user information by username.
