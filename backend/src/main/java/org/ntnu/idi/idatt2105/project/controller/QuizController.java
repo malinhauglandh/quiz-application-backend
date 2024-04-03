@@ -6,6 +6,7 @@ import org.ntnu.idi.idatt2105.project.entity.Category;
 import org.ntnu.idi.idatt2105.project.entity.Quiz;
 import org.ntnu.idi.idatt2105.project.entity.User;
 import org.ntnu.idi.idatt2105.project.service.CategoryService;
+import org.ntnu.idi.idatt2105.project.service.FileStorageService;
 import org.ntnu.idi.idatt2105.project.service.QuizService;
 import org.ntnu.idi.idatt2105.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +24,15 @@ public class QuizController {
     private final QuizService quizService;
     private final CategoryService categoryService;
     private final UserService userService;
+    private final FileStorageService fileStorageService;
 
     @Autowired
     public QuizController(
-            QuizService quizService, CategoryService categoryService, UserService userService) {
+            QuizService quizService, CategoryService categoryService, UserService userService, FileStorageService fileStorageService) {
         this.quizService = quizService;
         this.categoryService = categoryService;
         this.userService = userService;
+        this.fileStorageService = fileStorageService;
     }
 
     @PostMapping("/createquiz")
@@ -71,6 +74,16 @@ public class QuizController {
 
         QuizDTO createdQuizDTO = quizService.createQuiz(quiz);
         return ResponseEntity.ok(createdQuizDTO);
+    }
+
+    @PostMapping("/upload/{quizId}")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable int quizId) {
+        try {
+            fileStorageService.storeFile(file, quizId);
+            return ResponseEntity.ok().body("File uploaded successfully and linked to the quiz!");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Failed to upload file: " + e.getMessage());
+        }
     }
 
     @GetMapping
