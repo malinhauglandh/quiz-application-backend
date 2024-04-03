@@ -1,5 +1,6 @@
 package org.ntnu.idi.idatt2105.project.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 import lombok.Getter;
@@ -21,5 +22,14 @@ public class Category {
     private String categoryName;
 
     @OneToMany(mappedBy = "category", orphanRemoval = true)
+    @JsonIgnore
     private List<Quiz> quizList;
+
+    public int getCategoryId() {
+        return category_id;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
 }
