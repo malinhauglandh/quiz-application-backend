@@ -11,8 +11,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class QuestionTypeService {
 
+    private final QuestionTypeRepository questionTypeRepository;
+
     @Autowired
-    private QuestionTypeRepository questionTypeRepository;
+    public QuestionTypeService(QuestionTypeRepository questionTypeRepository) {
+        this.questionTypeRepository = questionTypeRepository;
+    }
 
     public QuestionType createQuestionType(String type) {
         QuestionType questionType = new QuestionType();
