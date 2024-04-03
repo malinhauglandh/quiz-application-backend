@@ -7,6 +7,9 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.ntnu.idi.idatt2105.project.exception.InvalidTokenException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -69,6 +72,17 @@ public class TokenService {
      */
     public String generateRefreshToken(String subject) {
         return generateToken(subject, refreshExpirationTime);
+    }
+
+    public Map<String, String> fetchTokens(String subject) {
+        String accessToken = generateAccessToken(subject);
+        String refreshToken = generateRefreshToken(subject);
+
+        Map<String, String> tokens = new HashMap<>();
+        tokens.put("accessToken", accessToken);
+        tokens.put("refreshToken", refreshToken);
+
+        return tokens;
     }
 
     /**
