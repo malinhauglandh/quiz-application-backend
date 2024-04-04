@@ -58,7 +58,11 @@ public class FileStorageService {
             if (resource.exists()) {
                 return ResponseEntity.ok().body(Files.readAllBytes(filePath));
             } else {
-                Path defaultImagePath = this.fileStorageLocation.resolve("default.png").normalize(); // Ensure you have a default.png image in your storage location
+                Path defaultImagePath =
+                        this.fileStorageLocation
+                                .resolve("default.png")
+                                .normalize(); // Ensure you have a default.png image in your storage
+                // location
                 Resource defaultImageResource = new UrlResource(defaultImagePath.toUri());
                 if (defaultImageResource.exists()) {
                     return ResponseEntity.ok().body(Files.readAllBytes(defaultImagePath));

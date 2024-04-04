@@ -2,7 +2,6 @@ package org.ntnu.idi.idatt2105.project.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.ntnu.idi.idatt2105.project.dto.QuizDTO;
 import org.ntnu.idi.idatt2105.project.entity.Category;
 import org.ntnu.idi.idatt2105.project.entity.Quiz;
@@ -100,9 +99,8 @@ public class QuizController {
     @GetMapping("/user/{creatorId}")
     public ResponseEntity<List<QuizDTO>> getQuizzesByCreator(@PathVariable Long creatorId) {
         List<Quiz> quizzes = quizService.getQuizzesByCreatorId(creatorId);
-        List<QuizDTO> quizDTOs = quizzes.stream()
-                .map(this::convertToQuizDTO)
-                .collect(Collectors.toList());
+        List<QuizDTO> quizDTOs =
+                quizzes.stream().map(this::convertToQuizDTO).collect(Collectors.toList());
         return ResponseEntity.ok(quizDTOs);
     }
 
@@ -118,7 +116,8 @@ public class QuizController {
         dto.setDifficultyLevel(quiz.getDifficultyLevel());
         dto.setMultimedia(quiz.getMultimedia());
 
-        dto.setCategoryId(quiz.getCategory() != null ? (long) quiz.getCategory().getCategoryId() : null);
+        dto.setCategoryId(
+                quiz.getCategory() != null ? (long) quiz.getCategory().getCategoryId() : null);
 
         dto.setCreatorId(quiz.getCreator() != null ? (long) quiz.getCreator().getUserId() : null);
 

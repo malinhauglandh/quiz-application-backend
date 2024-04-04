@@ -1,7 +1,6 @@
 package org.ntnu.idi.idatt2105.project.service;
 
 import java.util.List;
-
 import org.ntnu.idi.idatt2105.project.dto.QuizDTO;
 import org.ntnu.idi.idatt2105.project.entity.Quiz;
 import org.ntnu.idi.idatt2105.project.repository.QuizRepository;
