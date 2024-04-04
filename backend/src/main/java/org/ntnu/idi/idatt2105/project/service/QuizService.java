@@ -37,4 +37,8 @@ public class QuizService {
     public List<Quiz> getAllQuizzes() {
         return quizRepository.findAll();
     }
+
+  public Quiz findQuizById(Long quizId) {
+    return quizRepository.findById(quizId).orElse(null);
+  }
 }
