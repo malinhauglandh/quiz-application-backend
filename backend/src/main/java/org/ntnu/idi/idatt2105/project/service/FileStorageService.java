@@ -58,7 +58,13 @@ public class FileStorageService {
             if (resource.exists()) {
                 return ResponseEntity.ok().body(Files.readAllBytes(filePath));
             } else {
-                throw new IllegalArgumentException("File not found " + fileName);
+                Path defaultImagePath = this.fileStorageLocation.resolve("default.png").normalize(); // Ensure you have a default.png image in your storage location
+                Resource defaultImageResource = new UrlResource(defaultImagePath.toUri());
+                if (defaultImageResource.exists()) {
+                    return ResponseEntity.ok().body(Files.readAllBytes(defaultImagePath));
+                } else {
+                    throw new IllegalArgumentException("Default image file not found");
+                }
             }
         } catch (IOException ex) {
             throw new IllegalArgumentException("File not found " + fileName, ex);
