@@ -27,13 +27,13 @@ public class QuestionTypeController {
         return new ResponseEntity<>(questionType, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     public ResponseEntity<QuestionType> getQuestionTypeById(@PathVariable Long id) {
         Optional<QuestionType> questiontype = questionTypeService.findTypeByID(id);
         return questiontype
                 .map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
+    }*/
 
     @GetMapping
     public ResponseEntity<List<QuestionType>> getAllQuestionTypes() {
