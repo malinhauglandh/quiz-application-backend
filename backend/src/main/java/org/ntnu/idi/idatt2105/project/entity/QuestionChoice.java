@@ -32,4 +32,14 @@ public class QuestionChoice {
 
     @OneToMany(mappedBy = "questionChoice", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserAnswer> userAnswerList;
+
+    public void setIsCorrectChoice(boolean correctChoice) {
+        isCorrectChoice = correctChoice;
+    }
+
+    public QuestionChoice(String choice, String explanation, boolean isCorrectChoice) {
+        this.choice = choice;
+        this.explanation = explanation;
+        this.isCorrectChoice = isCorrectChoice;
+    }
 }

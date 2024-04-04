@@ -1,10 +1,13 @@
 package org.ntnu.idi.idatt2105.project.entity;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.aspectj.weaver.NewConstructorTypeMunger;
 
 /** Class representing a question in the application. */
 @Entity
@@ -35,5 +38,5 @@ public class Question {
     private QuestionType questionType;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<QuestionChoice> questionChoiceList;
+    private List<QuestionChoice> questionChoiceList = new ArrayList<>();
 }
