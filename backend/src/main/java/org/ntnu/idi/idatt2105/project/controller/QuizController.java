@@ -124,9 +124,11 @@ public class QuizController {
         return dto;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Quiz>> getAllQuizzes() {
+    @GetMapping("/allquizzes")
+    public ResponseEntity<List<QuizDTO>> getAllQuizzes() {
         List<Quiz> quizzes = quizService.getAllQuizzes();
-        return ResponseEntity.ok(quizzes);
+        List<QuizDTO> quizDTOs =
+                quizzes.stream().map(this::convertToQuizDTO).collect(Collectors.toList());
+        return ResponseEntity.ok(quizDTOs);
     }
 }
