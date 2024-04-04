@@ -34,6 +34,8 @@ public class SecurityConfig {
                 .cors()
                 .and()
                 .authorizeRequests()
+                .requestMatchers("/swagger-ui/**", "/swagger/**", "/v3/api-docs/**")
+                .permitAll()
                 .requestMatchers("/api/**")
                 .permitAll()
                 .requestMatchers("/")
