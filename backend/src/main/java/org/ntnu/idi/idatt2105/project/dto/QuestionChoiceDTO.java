@@ -6,13 +6,10 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class QuestionChoiceDTO {
-  private long quizChoiceId;
+  private Long quizChoiceId;
   private String choice;
   private String explanation;
   private boolean isCorrectChoice;
-
-  public void setIsCorrectChoice(boolean isCorrectChoice) {
-    this.isCorrectChoice = isCorrectChoice;
-  }
 }

@@ -17,10 +17,6 @@ public class QuestionDTO {
   private Long quizId;
   private Long questionTypeId;
   private List<QuestionChoiceDTO> choices = new ArrayList<>();
-
-  public void addChoice(QuestionChoiceDTO choiceDTO) {
-    choices.add(choiceDTO);
-  }
 }
 
 

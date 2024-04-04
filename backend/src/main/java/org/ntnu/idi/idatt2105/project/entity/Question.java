@@ -18,7 +18,7 @@ import org.aspectj.weaver.NewConstructorTypeMunger;
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int questionId;
+    private Long questionId;
 
     @Column(name = "question_text")
     private String questionText;

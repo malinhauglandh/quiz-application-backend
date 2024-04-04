@@ -14,7 +14,7 @@ import lombok.Setter;
 public class UserAnswer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int answerId;
+    private Long answerId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "completed_quiz_id")

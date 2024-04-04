@@ -15,7 +15,7 @@ import lombok.Setter;
 public class QuestionChoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int quizChoiceId;
+    private Long quizChoiceId;
 
     @Column(name = "choice")
     private String choice;
@@ -23,6 +23,7 @@ public class QuestionChoice {
     @Column(name = "explanation")
     private String explanation;
 
+    @Setter
     @Column(name = "is_correct_choice")
     private boolean isCorrectChoice;
 
@@ -33,13 +34,11 @@ public class QuestionChoice {
     @OneToMany(mappedBy = "questionChoice", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserAnswer> userAnswerList;
 
-    public void setIsCorrectChoice(boolean correctChoice) {
-        isCorrectChoice = correctChoice;
-    }
-
-    public QuestionChoice(String choice, String explanation, boolean isCorrectChoice) {
+    public QuestionChoice(Long quizChoiceId, String choice, String explanation, boolean correctChoice, Question question) {
+        this.quizChoiceId = quizChoiceId;
         this.choice = choice;
         this.explanation = explanation;
-        this.isCorrectChoice = isCorrectChoice;
+        this.isCorrectChoice = correctChoice;
+        this.question = question;
     }
 }

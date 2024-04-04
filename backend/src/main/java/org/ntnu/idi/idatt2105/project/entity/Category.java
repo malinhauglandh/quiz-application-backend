@@ -16,7 +16,7 @@ import lombok.Setter;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int category_id;
+    private Long category_id;
 
     @Column(name = "category_name", nullable = false)
     private String categoryName;
@@ -25,7 +25,7 @@ public class Category {
     @JsonIgnore
     private List<Quiz> quizList;
 
-    public int getCategoryId() {
+    public long getCategoryId() {
         return category_id;
     }
 

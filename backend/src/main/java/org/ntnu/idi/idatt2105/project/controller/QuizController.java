@@ -32,7 +32,7 @@ public class QuizController {
         this.userService = userService;
     }
 
-    @PostMapping("/createquiz")
+    @PostMapping("/createQuiz")
     public ResponseEntity<QuizDTO> createQuiz(
             @RequestParam("quizName") String quizName,
             @RequestParam("quizDescription") String quizDescription,
@@ -41,41 +41,32 @@ public class QuizController {
             @RequestParam("creator") Long creatorId,
             @RequestParam(value = "file", required = false) MultipartFile file) {
 
-        Quiz quiz = new Quiz();
-        quiz.setQuizName(quizName);
-        quiz.setQuizDescription(quizDescription);
-        quiz.setDifficultyLevel(difficultyLevel);
+        QuizDTO quizDTO = new QuizDTO();
+        quizDTO.setQuizName(quizName);
+        quizDTO.setQuizDescription(quizDescription);
+        quizDTO.setDifficultyLevel(difficultyLevel);
+        quizDTO.setCategoryId(categoryId);
+        quizDTO.setCreatorId(creatorId);
 
         if (file != null && !file.isEmpty()) {
             String fileName = file.getOriginalFilename();
-            quiz.setMultimedia(fileName);
+            quizDTO.setMultimedia(fileName);
         }
 
-        Category category =
-                categoryService
-                        .findCategoryById(categoryId)
-                        .orElseThrow(
-                                () ->
-                                        new ResponseStatusException(
-                                                HttpStatus.NOT_FOUND, "Category not found"));
-        quiz.setCategory(category);
-
-        User creator =
-                userService
-                        .findUserById(creatorId)
-                        .orElseThrow(
-                                () ->
-                                        new ResponseStatusException(
-                                                HttpStatus.NOT_FOUND, "User not found"));
-        quiz.setCreator(creator);
-
-        QuizDTO createdQuizDTO = quizService.createQuiz(quiz);
+        QuizDTO createdQuizDTO = quizService.createQuiz(quizDTO);
         return ResponseEntity.ok(createdQuizDTO);
     }
 
     @GetMapping
-    public ResponseEntity<List<Quiz>> getAllQuizzes() {
-        List<Quiz> quizzes = quizService.getAllQuizzes();
+    public ResponseEntity<List<QuizDTO>> getAllQuizzes() {
+        List<QuizDTO> quizzes = quizService.getAllQuizzes();
+        return ResponseEntity.ok(quizzes);
+    }
+
+    // get quizzes by userid
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<QuizDTO>> getQuizzesByUserId(@PathVariable Long userId) {
+        List<QuizDTO> quizzes = quizService.getQuizzesByUserId(userId);
         return ResponseEntity.ok(quizzes);
     }
 }

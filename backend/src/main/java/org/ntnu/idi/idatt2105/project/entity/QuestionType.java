@@ -15,7 +15,7 @@ import lombok.Setter;
 public class QuestionType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int typeId;
+    private Long typeId;
 
     @Column(name = "type_name")
     private String type;

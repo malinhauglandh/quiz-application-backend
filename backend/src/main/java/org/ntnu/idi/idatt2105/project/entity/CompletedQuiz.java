@@ -15,7 +15,7 @@ import lombok.Setter;
 public class CompletedQuiz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int completedQuizId;
+    private Long completedQuizId;
 
     @Column(name = "score")
     private int score;
