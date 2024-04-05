@@ -5,9 +5,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
-
 import java.util.Map;
-
 import org.ntnu.idi.idatt2105.project.dto.user.UserCreationDTO;
 import org.ntnu.idi.idatt2105.project.dto.user.UserLoginDTO;
 import org.ntnu.idi.idatt2105.project.entity.User;
@@ -20,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 
 /** Controller for handling login and user creation. */
 @RestController
@@ -36,7 +33,8 @@ public class UserController {
     private final UserMapper userMapper;
 
     @Autowired
-    public UserController(UserService userService, TokenService tokenService, UserMapper userMapper) {
+    public UserController(
+            UserService userService, TokenService tokenService, UserMapper userMapper) {
         this.userService = userService;
         this.tokenService = tokenService;
         this.userMapper = userMapper;
@@ -68,7 +66,8 @@ public class UserController {
             tokens.put("userId", String.valueOf(userService.findIdByUsername(user.getUsername())));
             return ResponseEntity.ok(tokens);
         } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Username or email already in use");
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("Username or email already in use");
         }
     }
 

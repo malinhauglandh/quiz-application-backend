@@ -24,6 +24,9 @@ public class UserMapper {
     }
 
     public User toNewUser(UserCreationDTO userCreationDTO) {
-        return new User(userCreationDTO.getUsername(), userCreationDTO.getEmail(), userCreationDTO.getPassword());
+        return new User(
+                userCreationDTO.getUsername(),
+                userCreationDTO.getEmail(),
+                userCreationDTO.getPassword());
     }
 }

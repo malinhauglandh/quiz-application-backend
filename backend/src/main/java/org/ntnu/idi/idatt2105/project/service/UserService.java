@@ -2,11 +2,9 @@ package org.ntnu.idi.idatt2105.project.service;
 
 import java.util.Map;
 import java.util.Optional;
-import org.hibernate.exception.ConstraintViolationException;
 import org.ntnu.idi.idatt2105.project.entity.User;
 import org.ntnu.idi.idatt2105.project.exception.ExistingUserException;
 import org.ntnu.idi.idatt2105.project.exception.InvalidCredentialsException;
-import org.ntnu.idi.idatt2105.project.exception.InvalidTokenException;
 import org.ntnu.idi.idatt2105.project.mapper.UserMapper;
 import org.ntnu.idi.idatt2105.project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,10 +46,14 @@ public class UserService {
      */
     public boolean createUser(User newUser) {
         try {
-            if(newUser.getUsername() == null || newUser.getPassword() == null || newUser.getEmail() == null) {
+            if (newUser.getUsername() == null
+                    || newUser.getPassword() == null
+                    || newUser.getEmail() == null) {
                 throw new InvalidCredentialsException("Username, password or email is null");
             }
-            if(newUser.getUsername().isBlank() || newUser.getPassword().isBlank() || newUser.getEmail().isBlank()) {
+            if (newUser.getUsername().isBlank()
+                    || newUser.getPassword().isBlank()
+                    || newUser.getEmail().isBlank()) {
                 throw new InvalidCredentialsException("Username, password or email is blank");
             }
             String encodedPassword = passwordEncoder.encode(newUser.getPassword());
@@ -60,10 +62,13 @@ public class UserService {
         } catch (DataIntegrityViolationException e) {
             // Check if the exception message contains hints about the duplicate email or username
             if (e.getMessage() != null) {
-                if (e.getMessage().contains("Duplicate entry") && e.getMessage().contains("UK_user_email")) {
+                if (e.getMessage().contains("Duplicate entry")
+                        && e.getMessage().contains("UK_user_email")) {
                     throw new ExistingUserException("Email already exists: " + newUser.getEmail());
-                } else if (e.getMessage().contains("Duplicate entry") && e.getMessage().contains("UK_user_username")) {
-                    throw new ExistingUserException("Username already exists: " + newUser.getUsername());
+                } else if (e.getMessage().contains("Duplicate entry")
+                        && e.getMessage().contains("UK_user_username")) {
+                    throw new ExistingUserException(
+                            "Username already exists: " + newUser.getUsername());
                 }
             }
             throw e;

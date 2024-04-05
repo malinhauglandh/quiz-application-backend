@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.ntnu.idi.idatt2105.project.exception.InvalidTokenException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
