@@ -6,8 +6,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
+import org.ntnu.idi.idatt2105.project.dto.user.UserCreationDTO;
+import org.ntnu.idi.idatt2105.project.dto.user.UserLoginDTO;
+import org.ntnu.idi.idatt2105.project.entity.User;
+import org.ntnu.idi.idatt2105.project.exception.InvalidCredentialsException;
 import org.ntnu.idi.idatt2105.project.exception.InvalidTokenException;
-import org.ntnu.idi.idatt2105.project.model.UserLogin;
+import org.ntnu.idi.idatt2105.project.mapper.UserMapper;
 import org.ntnu.idi.idatt2105.project.service.TokenService;
 import org.ntnu.idi.idatt2105.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +30,20 @@ public class UserController {
 
     private final TokenService tokenService;
 
+    private final UserMapper userMapper;
+
     @Autowired
-    public UserController(UserService userService, TokenService tokenService) {
+    public UserController(
+            UserService userService, TokenService tokenService, UserMapper userMapper) {
         this.userService = userService;
         this.tokenService = tokenService;
+        this.userMapper = userMapper;
     }
 
     /**
      * Endpoint for creating a new user.
      *
-     * @param login The user login information
+     * @param userCreationDTO The user login information
      * @return ResponseEntity with status 200 if the user was created, or status 409 if the username
      *     is already in use
      */
@@ -50,12 +58,16 @@ public class UserController {
                 @ApiResponse(responseCode = "409", description = "Username already in use")
             })
     @PostMapping("/createUser")
-    public ResponseEntity<?> createUser(@RequestBody UserLogin login) {
-        if (userService.createUser(login)) {
-            Map<String, String> tokens = userService.login(login);
+    @ResponseBody
+    public ResponseEntity<?> createUser(@RequestBody UserCreationDTO userCreationDTO) {
+        User user = userMapper.toNewUser(userCreationDTO);
+        if (userService.createUser(user)) {
+            Map<String, String> tokens = tokenService.fetchTokens(user.getUsername());
+            tokens.put("userId", String.valueOf(userService.findIdByUsername(user.getUsername())));
             return ResponseEntity.ok(tokens);
         } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already in use");
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("Username or email already in use");
         }
     }
 
@@ -77,16 +89,18 @@ public class UserController {
                 @ApiResponse(responseCode = "401", description = "Login failed")
             })
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserLogin login) {
+    @ResponseBody
+    public ResponseEntity<?> login(@RequestBody UserLoginDTO login) {
+        User user = userMapper.toUser(login);
         try {
-            Map<String, String> tokens = userService.login(login);
+            Map<String, String> tokens = userService.login(user);
             return ResponseEntity.ok(tokens);
-        } catch (InvalidTokenException e) {
+        } catch (InvalidCredentialsException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Login failed: " + e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("An error occurred while processing your request.");
+                    .body("An error occurred while processing your request with cause\n" + e);
         }
     }
 

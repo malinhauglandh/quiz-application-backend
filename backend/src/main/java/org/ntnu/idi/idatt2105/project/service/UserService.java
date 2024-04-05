@@ -1,13 +1,11 @@
 package org.ntnu.idi.idatt2105.project.service;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import org.hibernate.exception.ConstraintViolationException;
 import org.ntnu.idi.idatt2105.project.entity.User;
 import org.ntnu.idi.idatt2105.project.exception.ExistingUserException;
-import org.ntnu.idi.idatt2105.project.exception.InvalidTokenException;
-import org.ntnu.idi.idatt2105.project.model.UserLogin;
+import org.ntnu.idi.idatt2105.project.exception.InvalidCredentialsException;
+import org.ntnu.idi.idatt2105.project.mapper.UserMapper;
 import org.ntnu.idi.idatt2105.project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -25,41 +23,52 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
 
+    private final UserMapper userMapper;
+
     @Autowired
     public UserService(
             UserRepository userRepository,
             PasswordEncoder passwordEncoder,
-            TokenService tokenService) {
+            TokenService tokenService,
+            UserMapper userMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenService = tokenService;
+        this.userMapper = userMapper;
     }
 
     /**
      * Method for creating a new user. If the username or email is already in use, an
      * ExistingUserException is thrown.
      *
-     * @param userLogin The user login information
+     * @param newUser The user login information
      * @return true if the user was created
      */
-    public boolean createUser(UserLogin userLogin) {
+    public boolean createUser(User newUser) {
         try {
-            String encodedPassword = passwordEncoder.encode(userLogin.getPassword());
-            User newUser = new User();
-            newUser.setUsername(userLogin.getUsername());
+            if (newUser.getUsername() == null
+                    || newUser.getPassword() == null
+                    || newUser.getEmail() == null) {
+                throw new InvalidCredentialsException("Username, password or email is null");
+            }
+            if (newUser.getUsername().isBlank()
+                    || newUser.getPassword().isBlank()
+                    || newUser.getEmail().isBlank()) {
+                throw new InvalidCredentialsException("Username, password or email is blank");
+            }
+            String encodedPassword = passwordEncoder.encode(newUser.getPassword());
             newUser.setPassword(encodedPassword);
-            newUser.setEmail(userLogin.getEmail());
             userRepository.save(newUser);
         } catch (DataIntegrityViolationException e) {
-            if (e.getCause() instanceof ConstraintViolationException) {
-                String constraintName =
-                        ((ConstraintViolationException) e.getCause()).getConstraintName();
-                if ("UK_user_email".equals(constraintName)) {
+            // Check if the exception message contains hints about the duplicate email or username
+            if (e.getMessage() != null) {
+                if (e.getMessage().contains("Duplicate entry")
+                        && e.getMessage().contains("UK_user_email")) {
+                    throw new ExistingUserException("Email already exists: " + newUser.getEmail());
+                } else if (e.getMessage().contains("Duplicate entry")
+                        && e.getMessage().contains("UK_user_username")) {
                     throw new ExistingUserException(
-                            "Email already exists: " + userLogin.getEmail());
-                } else if ("UK_user_username".equals(constraintName)) {
-                    throw new ExistingUserException(
-                            "Username already exists: " + userLogin.getUsername());
+                            "Username already exists: " + newUser.getUsername());
                 }
             }
             throw e;
@@ -74,27 +83,29 @@ public class UserService {
      * @param userLogin The user login information
      * @return A JWT token
      */
-    public Map<String, String> login(UserLogin userLogin) {
+    public Map<String, String> login(User userLogin) {
         User user =
                 userRepository
                         .findByUsername(userLogin.getUsername())
-                        .orElseThrow(() -> new InvalidTokenException("User not found"));
-
+                        .orElseThrow(() -> new InvalidCredentialsException("User not found"));
         if (passwordEncoder.matches(userLogin.getPassword(), user.getPassword())) {
-            String accessToken = tokenService.generateAccessToken(user.getUsername());
-            String refreshToken = tokenService.generateRefreshToken(user.getUsername());
-
-            Map<String, String> tokens = new HashMap<>();
-            tokens.put("accessToken", accessToken);
-            tokens.put("refreshToken", refreshToken);
+            Map<String, String> tokens = tokenService.fetchTokens(user.getUsername());
             tokens.put("userId", String.valueOf(user.getUserId()));
             return tokens;
         } else {
-            throw new InvalidTokenException("Invalid username/password combination");
+            throw new InvalidCredentialsException("Invalid username/password combination");
         }
     }
 
     public Optional<User> findUserById(Long userId) {
         return userRepository.findById(userId);
+    }
+
+    public int findIdByUsername(String username) {
+        try {
+            return userRepository.findByUsername(username).get().getUserId();
+        } catch (Exception e) {
+            throw new InvalidCredentialsException("User not found");
+        }
     }
 }

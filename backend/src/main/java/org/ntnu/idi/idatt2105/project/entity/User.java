@@ -60,4 +60,10 @@ public class User {
     @ManyToMany(mappedBy = "collaboratingUsers")
     @Schema(description = "The list of quizzes the user is collaborating on.")
     private Set<Quiz> collaboratingQuizzes = new HashSet<>();
+
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 }
