@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /** Repository interface for the Quiz entity. */
 public interface QuizRepository extends JpaRepository<Quiz, Long> {
     List<Quiz> findByCreator_UserId(Long userId);
+
+    List<Quiz> findByCreator_UserIdAndQuizId(Long creatorId, Long quizId);
 }

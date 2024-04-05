@@ -105,4 +105,16 @@ public class QuizService {
     public List<Quiz> getQuizzesByCreatorId(Long creatorId) {
         return quizRepository.findByCreator_UserId(creatorId);
     }
+
+    /**
+     * Get all quizzes created by a user with a specific id
+     *
+     * @param creatorId The id of the user
+     * @param quizId The id of the quiz
+     * @return A list of quizzes created by the user with the specific id
+     */
+    public List<Quiz> getQuizzesByCreatorIdAndQuizId(Long creatorId, Long quizId) {
+        return quizRepository.findByCreator_UserIdAndQuizId(creatorId, quizId);
+
+    }
 }

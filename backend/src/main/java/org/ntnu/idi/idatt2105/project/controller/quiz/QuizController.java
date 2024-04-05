@@ -164,6 +164,33 @@ public class QuizController {
     }
 
     /**
+     * Get a quiz by creatorId and quizId.
+     *
+     * @param creatorId id of the creator
+     * @param quizId id of the quiz
+     * @return quizDTO
+     */
+    @Operation(
+            summary = "Get a quiz by creatorId and quizId",
+            parameters = {
+                @Parameter(name = "creatorId", description = "The id of the creator"),
+                @Parameter(name = "quizId", description = "The id of the quiz")
+            },
+            responses = {
+                @ApiResponse(responseCode = "200", description = "Quiz by creator and quizId found"),
+                @ApiResponse(responseCode = "404", description = "Quiz by creator and quizId not found")
+            }
+    )
+    @GetMapping("/user/{creatorId}/{quizId}")
+    public ResponseEntity<List<QuizDTO>> getQuizzesByCreatorAndQuizId(
+            @PathVariable Long creatorId, @PathVariable Long quizId) {
+        List<Quiz> quizzes = quizService.getQuizzesByCreatorIdAndQuizId(creatorId, quizId);
+        List<QuizDTO> quizDTOs =
+                quizzes.stream().map(quizMapper::toDto).collect(Collectors.toList());
+        return ResponseEntity.ok(quizDTOs);
+    }
+
+    /**
      * Get all quizzes.
      *
      * @return list of quizzes
