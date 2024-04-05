@@ -16,15 +16,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/** Controller for handling HTTP requests for categories. */
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("api/categories")
 @Tag(name = "Category Management", description = "Endpoints for managing categories")
 public class CategoryController {
 
+    /** The service class for the category controller. */
     private final CategoryService categoryService;
+
+    /** The repository for the category controller. */
     private final CategoryRepository categoryRepository;
 
+    /**
+     * Creates a new category controller with the specified service and repository.
+     *
+     * @param categoryService categoryService
+     * @param categoryRepository categoryRepository
+     */
     @Autowired
     public CategoryController(
             CategoryService categoryService, CategoryRepository categoryRepository) {
@@ -32,6 +42,12 @@ public class CategoryController {
         this.categoryRepository = categoryRepository;
     }
 
+    /**
+     * Creates a new category with the specified name.
+     *
+     * @param categoryName categoryName
+     * @return category cre
+     */
     @Operation(
             summary = "Create a new category",
             parameters = {
@@ -47,6 +63,12 @@ public class CategoryController {
         return new ResponseEntity<>(category, HttpStatus.CREATED);
     }
 
+    /**
+     * Gets a category by id.
+     *
+     * @param id id
+     * @return category
+     */
     @Operation(
             summary = "Get a category by id",
             parameters = {@Parameter(name = "id", description = "Category id")},
@@ -61,6 +83,11 @@ public class CategoryController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    /**
+     * Finds all categories.
+     *
+     * @return categories
+     */
     @Operation(
             summary = "Get all categories",
             responses = {
@@ -73,7 +100,7 @@ public class CategoryController {
                 .map(
                         category ->
                                 new CategoryDTO(
-                                        category.getCategoryId(), category.getCategoryName()))
+                                        category.getCategory_id(), category.getCategoryName()))
                 .collect(Collectors.toList());
     }
 }
