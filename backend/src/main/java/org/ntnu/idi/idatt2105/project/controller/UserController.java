@@ -8,12 +8,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import org.ntnu.idi.idatt2105.project.dto.user.UserCreationDTO;
 import org.ntnu.idi.idatt2105.project.dto.user.UserLoginDTO;
-import org.ntnu.idi.idatt2105.project.entity.User;
+import org.ntnu.idi.idatt2105.project.entity.user.User;
 import org.ntnu.idi.idatt2105.project.exception.InvalidCredentialsException;
 import org.ntnu.idi.idatt2105.project.exception.InvalidTokenException;
-import org.ntnu.idi.idatt2105.project.mapper.UserMapper;
-import org.ntnu.idi.idatt2105.project.service.TokenService;
-import org.ntnu.idi.idatt2105.project.service.UserService;
+import org.ntnu.idi.idatt2105.project.mapper.user.UserMapper;
+import org.ntnu.idi.idatt2105.project.service.user.TokenService;
+import org.ntnu.idi.idatt2105.project.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,12 +26,21 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "User Management", description = "Endpoints for managing users")
 public class UserController {
 
+    /** The service class for the user controller. */
     private final UserService userService;
 
+    /** The service class for the token controller. */
     private final TokenService tokenService;
 
     private final UserMapper userMapper;
 
+    /**
+     * Creates a new user controller with the specified services.
+     *
+     * @param userService userService
+     * @param tokenService tokenService
+     * @param userMapper userMapper
+     */
     @Autowired
     public UserController(
             UserService userService, TokenService tokenService, UserMapper userMapper) {
