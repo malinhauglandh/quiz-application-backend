@@ -17,25 +17,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 /** Controller for handling HTTP requests for categories. */
-
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("api/categories")
 @Tag(name = "Category Management", description = "Endpoints for managing categories")
 public class CategoryController {
 
-    /**
-     * The service class for the category controller.
-     */
+    /** The service class for the category controller. */
     private final CategoryService categoryService;
 
-    /**
-     * The repository for the category controller.
-     */
+    /** The repository for the category controller. */
     private final CategoryRepository categoryRepository;
 
     /**
      * Creates a new category controller with the specified service and repository.
+     *
      * @param categoryService categoryService
      * @param categoryRepository categoryRepository
      */
@@ -48,6 +44,7 @@ public class CategoryController {
 
     /**
      * Creates a new category with the specified name.
+     *
      * @param categoryName categoryName
      * @return category cre
      */
@@ -68,6 +65,7 @@ public class CategoryController {
 
     /**
      * Gets a category by id.
+     *
      * @param id id
      * @return category
      */
@@ -87,6 +85,7 @@ public class CategoryController {
 
     /**
      * Finds all categories.
+     *
      * @return categories
      */
     @Operation(

@@ -6,19 +6,16 @@ import org.ntnu.idi.idatt2105.project.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * Service class for Category
- */
+/** Service class for Category */
 @Service
 public class CategoryService {
 
-    /**
-     * Repository for Category
-     */
+    /** Repository for Category */
     private final CategoryRepository categoryRepository;
 
     /**
      * Constructor for CategoryService
+     *
      * @param categoryRepository The repository for Category
      */
     @Autowired
@@ -28,6 +25,7 @@ public class CategoryService {
 
     /**
      * Create a new Category
+     *
      * @param categoryName The name of the category
      * @return The created Category
      */
@@ -39,6 +37,7 @@ public class CategoryService {
 
     /**
      * Find all Categories
+     *
      * @return A list of all Categories
      */
     public Optional<Category> findCategoryById(Long categoryId) {

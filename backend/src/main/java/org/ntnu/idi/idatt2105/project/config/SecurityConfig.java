@@ -1,7 +1,7 @@
 package org.ntnu.idi.idatt2105.project.config;
 
 import org.ntnu.idi.idatt2105.project.security.JWTAuthorizationFilter;
-import org.ntnu.idi.idatt2105.project.service.TokenService;
+import org.ntnu.idi.idatt2105.project.service.user.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,8 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private TokenService tokenService;
+    @Autowired private TokenService tokenService;
 
     /**
      * Bean for security filter chain.

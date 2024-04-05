@@ -5,7 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import org.ntnu.idi.idatt2105.project.service.TokenService;
+import org.ntnu.idi.idatt2105.project.service.user.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,9 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 /** Filter for handling JWT authorization. */
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
-    /**
-     * The token service.
-     */
+    /** The token service. */
     private final TokenService tokenService;
 
     /**
