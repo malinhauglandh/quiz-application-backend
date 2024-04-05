@@ -27,14 +27,39 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CompletedQuizService {
+
+    /** Repositories used by the service. */
     private final CompletedQuizRepository completedQuizRepository;
+
+    /** Mappers used by the service. */
     private final CompletedQuizMapper completedQuizMapper;
+
+    /** Repositories used by the service. */
     private final QuizRepository quizRepository;
+
+    /** Repositories used by the service. */
     private final UserRepository userRepository;
+
+    /** Repositories used by the service. */
     private final UserAnswerRepository userAnswerRepository;
+
+    /** Mappers used by the service. */
     private final UserAnswerMapper userAnswerMapper;
+
+    /** Repositories used by the service. */
     private final QuestionChoiceRepository questionChoiceRepository;
 
+    /**
+     * Constructor for CompletedQuizService.
+     *
+     * @param completedQuizRepository completedQuizRepository
+     * @param completedQuizMapper completedQuizMapper
+     * @param quizRepository quizRepository
+     * @param userRepository userRepository
+     * @param userAnswerRepository userAnswerRepository
+     * @param userAnswerMapper userAnswerMapper
+     * @param questionChoiceRepository questionChoiceRepository
+     */
     @Autowired
     public CompletedQuizService(
             CompletedQuizRepository completedQuizRepository,
@@ -140,7 +165,7 @@ public class CompletedQuizService {
                             List<UserAnswerDTO> userAnswerDTOs =
                                     userAnswerRepository
                                             .findByCompletedQuizCompletedQuizId(
-                                                    (long) completedQuiz.getCompletedQuizId())
+                                                    completedQuiz.getCompletedQuizId())
                                             .stream()
                                             .map(userAnswerMapper::convertUserAnswerToDTO)
                                             .collect(Collectors.toList());

@@ -1,6 +1,5 @@
 package org.ntnu.idi.idatt2105.project.controller.question;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.ntnu.idi.idatt2105.project.dto.question.QuestionChoiceDTO;
 import org.ntnu.idi.idatt2105.project.dto.question.QuestionDTO;
@@ -39,7 +38,6 @@ public class QuestionController {
      * @param questionService questionService
      * @param quizService quizService
      * @param questionTypeService questionTypeService
-     * @param objectMapper objectMapper
      * @param questionChoiceMapper questionChoiceMapper
      */
     @Autowired
@@ -47,7 +45,6 @@ public class QuestionController {
             QuestionService questionService,
             QuizService quizService,
             QuestionTypeService questionTypeService,
-            ObjectMapper objectMapper,
             QuestionChoiceMapper questionChoiceMapper) {
         this.questionService = questionService;
         this.quizService = quizService;

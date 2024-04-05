@@ -16,14 +16,14 @@ public class UserAnswerMapper {
         }
 
         UserAnswerDTO dto = new UserAnswerDTO();
-        dto.setUserAnswerId((long) userAnswer.getAnswerId());
+        dto.setUserAnswerId(userAnswer.getAnswerId());
         dto.setCompletedQuizId(
                 userAnswer.getCompletedQuiz() != null
-                        ? (long) userAnswer.getCompletedQuiz().getCompletedQuizId()
+                        ? userAnswer.getCompletedQuiz().getCompletedQuizId()
                         : null);
         dto.setQuestionChoiceId(
                 userAnswer.getQuestionChoice() != null
-                        ? (long) userAnswer.getQuestionChoice().getQuizChoiceId()
+                        ? userAnswer.getQuestionChoice().getQuizChoiceId()
                         : null);
 
         return dto;

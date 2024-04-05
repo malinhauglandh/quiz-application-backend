@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.ntnu.idi.idatt2105.project.entity.user.User;
 import org.ntnu.idi.idatt2105.project.exception.ExistingUserException;
 import org.ntnu.idi.idatt2105.project.exception.InvalidCredentialsException;
-import org.ntnu.idi.idatt2105.project.mapper.user.UserMapper;
 import org.ntnu.idi.idatt2105.project.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -28,9 +27,6 @@ public class UserService {
     /** Token service */
     private final TokenService tokenService;
 
-    /** User Mapper */
-    private final UserMapper userMapper;
-
     /**
      * Constructor for UserService
      *
@@ -42,12 +38,10 @@ public class UserService {
     public UserService(
             UserRepository userRepository,
             PasswordEncoder passwordEncoder,
-            TokenService tokenService,
-            UserMapper userMapper) {
+            TokenService tokenService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenService = tokenService;
-        this.userMapper = userMapper;
     }
 
     /**
