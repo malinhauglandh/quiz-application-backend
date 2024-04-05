@@ -28,4 +28,8 @@ public class QuizService {
     public List<Quiz> getAllQuizzes() {
         return quizRepository.findAll();
     }
+
+    public List<Quiz> getQuizzesByCreatorId(Long creatorId) {
+        return quizRepository.findByCreator_UserId(creatorId);
+    }
 }

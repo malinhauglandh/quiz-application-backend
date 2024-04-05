@@ -1,5 +1,9 @@
 package org.ntnu.idi.idatt2105.project.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Map;
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "*")
+@Tag(name = "User Management", description = "Endpoints for managing users")
 public class UserController {
 
     private final UserService userService;
@@ -44,6 +49,16 @@ public class UserController {
      * @return ResponseEntity with status 200 if the user was created, or status 409 if the username
      *     is already in use
      */
+    @Operation(
+            summary = "Create a new user",
+            parameters = {
+                @Parameter(name = "username", description = "The username of the user"),
+                @Parameter(name = "password", description = "The password of the user")
+            },
+            responses = {
+                @ApiResponse(responseCode = "200", description = "User created"),
+                @ApiResponse(responseCode = "409", description = "Username already in use")
+            })
     @PostMapping("/createUser")
     @ResponseBody
     public ResponseEntity<?> createUser(@RequestBody UserCreationDTO userCreationDTO) {
@@ -64,6 +79,16 @@ public class UserController {
      * @return ResponseEntity with status 200 and a JWT token if the login was successful, or status
      *     401 if the login failed
      */
+    @Operation(
+            summary = "Login a user",
+            parameters = {
+                @Parameter(name = "username", description = "The username of the user"),
+                @Parameter(name = "password", description = "The password of the user")
+            },
+            responses = {
+                @ApiResponse(responseCode = "200", description = "User logged in"),
+                @ApiResponse(responseCode = "401", description = "Login failed")
+            })
     @PostMapping("/login")
     @ResponseBody
     public ResponseEntity<?> login(@RequestBody UserLoginDTO login) {
@@ -87,6 +112,13 @@ public class UserController {
      * @return ResponseEntity with status 200 and a new access token if the refresh token is valid,
      *     or status 401 if the refresh token is invalid.
      */
+    @Operation(
+            summary = "Refresh access token",
+            parameters = {@Parameter(name = "request", description = "The refresh token")},
+            responses = {
+                @ApiResponse(responseCode = "200", description = "Access token refreshed"),
+                @ApiResponse(responseCode = "401", description = "Invalid or expired refresh token")
+            })
     @GetMapping("/refreshToken")
     public ResponseEntity<?> refreshToken(HttpServletRequest request) {
         try {

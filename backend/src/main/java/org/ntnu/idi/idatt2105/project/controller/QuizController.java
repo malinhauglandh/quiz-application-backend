@@ -1,6 +1,11 @@
 package org.ntnu.idi.idatt2105.project.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.ntnu.idi.idatt2105.project.dto.QuizDTO;
 import org.ntnu.idi.idatt2105.project.entity.Category;
 import org.ntnu.idi.idatt2105.project.entity.Quiz;
@@ -19,6 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping("api/quizzes")
 @CrossOrigin(origins = "*")
+@Tag(name = "Quiz Management", description = "Endpoints for managing quizzes and multimedia files")
 public class QuizController {
 
     private final QuizService quizService;
@@ -38,6 +44,12 @@ public class QuizController {
         this.fileStorageService = fileStorageService;
     }
 
+    @Operation(
+            summary = "Create a new quiz",
+            responses = {
+                @ApiResponse(responseCode = "200", description = "Quiz created"),
+                @ApiResponse(responseCode = "400", description = "Not able to create quiz")
+            })
     @PostMapping("/createquiz")
     public ResponseEntity<QuizDTO> createQuiz(
             @RequestParam("quizName") String quizName,
@@ -79,6 +91,20 @@ public class QuizController {
         return ResponseEntity.ok(createdQuizDTO);
     }
 
+    @Operation(
+            summary = "Upload a multimedia-file to a quiz",
+            parameters = {
+                @Parameter(name = "file", description = "The multimedia-file to upload"),
+                @Parameter(
+                        name = "quizId",
+                        description = "The id of the quiz to link the multimedia-file to")
+            },
+            responses = {
+                @ApiResponse(
+                        responseCode = "200",
+                        description = "Multimedia-file uploaded successfully"),
+                @ApiResponse(responseCode = "404", description = "Multimedia-file not uploaded")
+            })
     @PostMapping("/upload/{quizId}")
     public ResponseEntity<String> uploadFile(
             @RequestParam("file") MultipartFile file, @PathVariable int quizId) {
@@ -90,9 +116,66 @@ public class QuizController {
         }
     }
 
-    @GetMapping
-    public ResponseEntity<List<Quiz>> getAllQuizzes() {
+    @Operation(
+            summary = "Get a multimedia-file by filename",
+            parameters = {
+                @Parameter(name = "fileName", description = "The name of the multimedia-file")
+            },
+            responses = {
+                @ApiResponse(responseCode = "200", description = "Multimedia-file found"),
+                @ApiResponse(responseCode = "404", description = "Multimedia-file not found")
+            })
+    @GetMapping("/files/{fileName:.+}")
+    public ResponseEntity<byte[]> getFile(@PathVariable String fileName) {
+        return fileStorageService.loadFile(fileName);
+    }
+
+    @Operation(
+            summary = "Get a quiz by creatorId",
+            parameters = {@Parameter(name = "creatorId", description = "The id of the creator")},
+            responses = {
+                @ApiResponse(responseCode = "200", description = "Quiz by creator found"),
+                @ApiResponse(responseCode = "404", description = "Quiz by creator not found")
+            })
+    @GetMapping("/user/{creatorId}")
+    public ResponseEntity<List<QuizDTO>> getQuizzesByCreator(@PathVariable Long creatorId) {
+        List<Quiz> quizzes = quizService.getQuizzesByCreatorId(creatorId);
+        List<QuizDTO> quizDTOs =
+                quizzes.stream().map(this::convertToQuizDTO).collect(Collectors.toList());
+        return ResponseEntity.ok(quizDTOs);
+    }
+
+    private QuizDTO convertToQuizDTO(Quiz quiz) {
+        if (quiz == null) {
+            return null;
+        }
+
+        QuizDTO dto = new QuizDTO();
+        dto.setQuizId((long) quiz.getQuizId());
+        dto.setQuizName(quiz.getQuizName());
+        dto.setQuizDescription(quiz.getQuizDescription());
+        dto.setDifficultyLevel(quiz.getDifficultyLevel());
+        dto.setMultimedia(quiz.getMultimedia());
+
+        dto.setCategoryId(
+                quiz.getCategory() != null ? (long) quiz.getCategory().getCategoryId() : null);
+
+        dto.setCreatorId(quiz.getCreator() != null ? (long) quiz.getCreator().getUserId() : null);
+
+        return dto;
+    }
+
+    @Operation(
+            summary = "Get all quizzes",
+            responses = {
+                @ApiResponse(responseCode = "200", description = "All quizzes are found"),
+                @ApiResponse(responseCode = "404", description = "Quizzes not found")
+            })
+    @GetMapping("/allquizzes")
+    public ResponseEntity<List<QuizDTO>> getAllQuizzes() {
         List<Quiz> quizzes = quizService.getAllQuizzes();
-        return ResponseEntity.ok(quizzes);
+        List<QuizDTO> quizDTOs =
+                quizzes.stream().map(this::convertToQuizDTO).collect(Collectors.toList());
+        return ResponseEntity.ok(quizDTOs);
     }
 }
