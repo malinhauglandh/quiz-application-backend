@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Table(
-        name = "user",
+        name = "'user'",
         uniqueConstraints = {
             @UniqueConstraint(name = "UK_user_email", columnNames = "email"),
             @UniqueConstraint(name = "UK_user_username", columnNames = "username")

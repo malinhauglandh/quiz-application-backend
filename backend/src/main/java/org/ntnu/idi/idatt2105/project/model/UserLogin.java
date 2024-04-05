@@ -1,14 +1,12 @@
 package org.ntnu.idi.idatt2105.project.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 /** Class representing a user login in the application. */
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
 public class UserLogin {
 
