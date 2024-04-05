@@ -7,6 +7,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
+
+/**
+ * Mapper class for mapping between Question and QuestionDTO
+ */
 @Component
 public class QuestionMapper {
 
@@ -17,6 +21,11 @@ public class QuestionMapper {
         this.questionChoiceMapper = questionChoiceMapper;
     }
 
+    /**
+     * Maps a Question object to a QuestionDTO object
+     * @param question The Question object to map
+     * @return The QuestionDTO object
+     */
     public QuestionDTO questionToQuestionDTO(Question question) {
         QuestionDTO questionDTO = new QuestionDTO();
         questionDTO.setQuestionId(question.getQuestionId());
@@ -30,6 +39,12 @@ public class QuestionMapper {
                 .collect(Collectors.toList()));
         return questionDTO;
     }
+
+    /**
+     * Maps a QuestionDTO object to a Question object
+     * @param questionDTO The QuestionDTO object to map
+     * @return The Question object
+     */
     public Question questionDTOToQuestion(QuestionDTO questionDTO) {
         Question question = new Question();
         question.setQuestionId(questionDTO.getQuestionId());

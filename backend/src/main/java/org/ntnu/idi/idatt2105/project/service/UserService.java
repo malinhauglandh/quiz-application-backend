@@ -21,10 +21,27 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
+    /**
+     * Repository for User
+     */
     private final UserRepository userRepository;
+
+    /**
+     * Password encoder
+     */
     private final PasswordEncoder passwordEncoder;
+
+    /**
+     * Token service
+     */
     private final TokenService tokenService;
 
+    /**
+     * Constructor for UserService
+     * @param userRepository userRepository
+     * @param passwordEncoder passwordEncoder
+     * @param tokenService tokenService
+     */
     @Autowired
     public UserService(
             UserRepository userRepository,
@@ -94,6 +111,12 @@ public class UserService {
         }
     }
 
+    /**
+     * Method for finding a user by its id.
+     *
+     * @param userId The id of the user
+     * @return The user
+     */
     public Optional<User> findUserById(Long userId) {
         return userRepository.findById(userId);
     }

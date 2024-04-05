@@ -13,17 +13,43 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+/**
+ * Controller for handling HTTP requests for questions.
+ */
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/questions")
 public class QuestionController {
 
+  /**
+   * The service class for the question controller.
+   */
   private final QuestionService questionService;
+
+  /**
+   * The service class for the quiz controller.
+   */
   private final QuizService quizService;
+
+  /**
+   * The service class for the question type controller.
+   */
   private final QuestionTypeService questionTypeService;
+
+  /**
+   * The mapper class for the question choice controller.
+   */
   private final QuestionChoiceMapper questionChoiceMapper;
 
 
+  /**
+   * Creates a new question controller with the specified services.
+   * @param questionService questionService
+   * @param quizService quizService
+   * @param questionTypeService questionTypeService
+   * @param objectMapper objectMapper
+   * @param questionChoiceMapper questionChoiceMapper
+   */
   @Autowired
   public QuestionController(QuestionService questionService, QuizService quizService, QuestionTypeService questionTypeService, ObjectMapper objectMapper, QuestionChoiceMapper questionChoiceMapper) {
     this.questionService = questionService;
@@ -32,7 +58,16 @@ public class QuestionController {
     this.questionChoiceMapper = questionChoiceMapper;
   }
 
-
+  /**
+   * Creates a new question with the specified question text, tag, quiz id, question type id, choices and file.
+   * @param questionText questionText
+   * @param tag tag
+   * @param quizId quizId
+   * @param questionTypeId questionTypeId
+   * @param choices choices
+   * @param file file
+   * @return questionDTO
+   */
   @PostMapping("/create")
   public ResponseEntity<QuestionDTO> createQuestion(
           @RequestParam("questionText") String questionText,
@@ -55,15 +90,19 @@ public class QuestionController {
 
     questionService.createQuestion(question);
     List<QuestionChoiceDTO> choiceDTOs = questionService.parseChoices(choices);
-    question.getQuestionChoiceList().clear(); // Clear the collection to avoid duplicates
+    question.getQuestionChoiceList().clear();
     List<QuestionChoice> mappedChoices = choiceDTOs.stream()
             .map(dto -> questionChoiceMapper.questionChoiceDTOToQuestionChoice(dto, question))
             .toList();
-    question.getQuestionChoiceList().addAll(mappedChoices); // Add the new elements to the original collection
+    question.getQuestionChoiceList().addAll(mappedChoices);
     QuestionDTO createdQuestionDTO = questionService.createQuestion(question);
     return ResponseEntity.ok(createdQuestionDTO);
   }
 
+  /**
+   * Get all questions.
+   * @return list of questions
+   */
   @GetMapping("/allQuestions")
   public ResponseEntity<List<QuestionDTO>> getAllQuestions() {
     List<QuestionDTO> questions = questionService.getAllQuestions();

@@ -5,7 +5,6 @@ public class ExistingUserException extends RuntimeException {
 
     /**
      * Constructs a new ExistingUserException with the specified detail message.
-     *
      * @param message the detail message.
      */
     public ExistingUserException(String message) {

@@ -3,7 +3,6 @@ package org.ntnu.idi.idatt2105.project.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.ntnu.idi.idatt2105.project.dto.QuizDTO;
 import org.ntnu.idi.idatt2105.project.entity.Category;
 import org.ntnu.idi.idatt2105.project.entity.Quiz;
@@ -16,17 +15,40 @@ import org.ntnu.idi.idatt2105.project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service class for Quiz
+
+ */
 @Service
 public class QuizService {
 
+    /**
+     * Repository for Quiz
+     */
     private final QuizRepository quizRepository;
 
+    /**
+     * Repository for Category
+     */
     private final CategoryRepository categoryRepository;
 
+    /**
+     * Repository for User
+     */
     private final UserRepository userRepository;
 
+    /**
+     * Mapper for Quiz
+     */
     private final QuizMapper quizMapper;
 
+    /**
+     * Constructor for QuizService
+     * @param quizRepository quizRepository
+     * @param categoryRepository categoryRepository
+     * @param userRepository userRepository
+     * @param quizMapper quizMapper
+     */
     @Autowired
     public QuizService(QuizRepository quizRepository,
                        CategoryRepository categoryRepository,
@@ -38,6 +60,11 @@ public class QuizService {
         this.quizMapper = quizMapper;
     }
 
+    /**
+     * Create a new quiz
+     * @param quizDTO The quiz to create
+     * @return The created quiz
+     */
     public QuizDTO createQuiz(QuizDTO quizDTO) {
         Quiz quiz = quizMapper.toEntity(quizDTO);
 
@@ -54,6 +81,10 @@ public class QuizService {
         return quizMapper.toDto(newQuiz);
     }
 
+    /**
+     * Get all quizzes
+     * @return A list of all quizzes
+     */
     public List<QuizDTO> getAllQuizzes() {
         List<Quiz> quizzes = quizRepository.findAll();
 
@@ -62,18 +93,22 @@ public class QuizService {
                 .collect(Collectors.toList());
     }
 
-  public Quiz findQuizById(Long quizId) {
-    return quizRepository.findById(quizId).orElse(null);
-    }
 
-    public List<QuizDTO> getQuizzesByUserId(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new UserNotFoundException("User not found"));
+    /**
+     * Get a quiz by its id
+     * @param quizId The id of the quiz
+     * @return The quiz
+     */
+      public Quiz findQuizById(Long quizId) {
+        return quizRepository.findById(quizId).orElse(null);
+      }
 
-        List<Quiz> quizzes = quizRepository.getAllByCreator(user);
-
-        return quizzes.stream()
-                .map(quizMapper::toDto)
-                .collect(Collectors.toList());
+    /**
+     * Get all quizzes created by a user
+     * @param creatorId The id of the user
+     * @return A list of quizzes created by the user
+     */
+    public List<Quiz> getQuizzesByCreatorId(Long creatorId) {
+        return quizRepository.findByCreator_UserId(creatorId);
     }
 }

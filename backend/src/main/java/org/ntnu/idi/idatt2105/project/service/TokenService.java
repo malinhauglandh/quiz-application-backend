@@ -19,17 +19,33 @@ import org.springframework.stereotype.Service;
 @Service
 public class TokenService {
 
+    /**
+     * The secret key used to sign the JWT token
+     */
     @Value("${jwt.secret}")
     private String secretKey;
 
+    /**
+     * The expiration time of the JWT token
+     */
     @Value("${jwt.expiration.time}")
     private long expirationTime;
 
+    /**
+     * The expiration time of the JWT refresh token
+     */
     @Value("${jwt.refresh.expiration.time}")
     private long refreshExpirationTime;
 
+    /**
+     * The user detail service
+     */
     private final UserDetailService userDetailService;
 
+    /**
+     * Constructor for TokenService
+     * @param userDetailService The user detail service
+     */
     public TokenService(UserDetailService userDetailService) {
         this.userDetailService = userDetailService;
     }
@@ -60,6 +76,7 @@ public class TokenService {
     public String generateAccessToken(String subject) {
         return generateToken(subject, expirationTime);
     }
+
 
     /**
      * Generate a refresh token for a given subject (user identifier).

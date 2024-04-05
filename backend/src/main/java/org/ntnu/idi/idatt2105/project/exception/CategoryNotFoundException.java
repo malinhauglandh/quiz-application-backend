@@ -1,5 +1,8 @@
 package org.ntnu.idi.idatt2105.project.exception;
 
+/**
+ * Exception thrown when a category is not found.
+ */
 public class CategoryNotFoundException extends RuntimeException{
 
     /**

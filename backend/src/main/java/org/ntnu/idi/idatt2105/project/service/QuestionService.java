@@ -25,12 +25,27 @@ import java.util.stream.Collectors;
 @Service
 public class QuestionService {
 
+  /**
+   * Repository for Question
+   */
   private final QuestionRepository questionRepository;
 
-    private final QuestionMapper questionMapper;
+  /**
+   * Mapper for Question
+   */
+  private final QuestionMapper questionMapper;
 
+  /**
+   * Object mapper
+   */
   private final ObjectMapper objectMapper;
 
+  /**
+   * Constructor for QuestionService.
+   * @param questionRepository questionRepository
+   * @param questionMapper questionMapper
+   * @param objectMapper objectMapper
+   */
 
   @Autowired
   public QuestionService(QuestionRepository questionRepository,

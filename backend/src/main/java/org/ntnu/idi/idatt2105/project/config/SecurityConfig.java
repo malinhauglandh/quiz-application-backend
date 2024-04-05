@@ -18,7 +18,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired private TokenService tokenService;
+    @Autowired
+    private TokenService tokenService;
 
     /**
      * Bean for security filter chain.
@@ -34,6 +35,8 @@ public class SecurityConfig {
                 .cors()
                 .and()
                 .authorizeRequests()
+                .requestMatchers("/swagger-ui/**", "/swagger/**", "/v3/api-docs/**")
+                .permitAll()
                 .requestMatchers("/api/**")
                 .permitAll()
                 .requestMatchers("/")
@@ -60,6 +63,12 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Bean for JWT authorization filter.
+     *
+     * @param tokenService the token service.
+     * @return a new JWTAuthorizationFilter.
+     */
     @Bean
     public JWTAuthorizationFilter jwtAuthorizationFilter(TokenService tokenService) {
         return new JWTAuthorizationFilter(tokenService);

@@ -4,9 +4,17 @@ import org.ntnu.idi.idatt2105.project.dto.QuizDTO;
 import org.ntnu.idi.idatt2105.project.entity.Quiz;
 import org.springframework.stereotype.Component;
 
+/**
+ * Mapper for the entity Quiz and its DTO QuizDTO.
+ */
 @Component
 public class QuizMapper {
 
+    /**
+     * Maps a Quiz object to a QuizDTO object
+     * @param quiz The Quiz object to map
+     * @return The QuizDTO object
+     */
     public QuizDTO toDto(Quiz quiz) {
         if (quiz == null) {
             return null;
@@ -20,12 +28,17 @@ public class QuizMapper {
         dto.setDifficultyLevel(quiz.getDifficultyLevel());
 
         if(quiz.getCategory() != null)
-            dto.setCategoryId(quiz.getCategory().getCategoryId());
+            dto.setCategoryId(quiz.getCategory().getCategory_id());
         if(quiz.getCreator() != null)
             dto.setCreatorId(quiz.getCreator().getUserId());
         return dto;
     }
 
+    /**
+     * Maps a QuizDTO object to a Quiz object
+     * @param dto The QuizDTO object to map
+     * @return The Quiz object
+     */
     public Quiz toEntity(QuizDTO dto) {
         if (dto == null) {
             return null;

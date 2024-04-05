@@ -43,10 +43,21 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 
+    /**
+     * Handles CategoryNotFoundException.
+     * @param ex The exception that was thrown
+     * @return A response entity with the exception message and status code to the client
+     */
     @ExceptionHandler(CategoryNotFoundException.class)
     public ResponseEntity<Object> handleCategoryNotFoundException(CategoryNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
+
+    /**
+     * Handles UserNotFoundException.
+     * @param ex The exception that was thrown
+     * @return A response entity with the exception message and status code to the client
+     */
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
