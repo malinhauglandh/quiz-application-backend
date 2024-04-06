@@ -4,9 +4,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.List;
-
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 import org.ntnu.idi.idatt2105.project.dto.quiz.CompletedQuizDTO;
 import org.ntnu.idi.idatt2105.project.dto.user.UserAnswerDTO;
 import org.ntnu.idi.idatt2105.project.service.quiz.CompletedQuizService;
@@ -74,8 +73,8 @@ public class CompletedQuizController {
     @Operation(
             summary = "Get the latest completed quiz for a user",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Latest completed quiz found"),
-                    @ApiResponse(responseCode = "404", description = "Completed quizzes not found")
+                @ApiResponse(responseCode = "200", description = "Latest completed quiz found"),
+                @ApiResponse(responseCode = "404", description = "Completed quizzes not found")
             })
     @GetMapping("/{quizId}")
     public ResponseEntity<CompletedQuizDTO> getLatestCompletedQuizForUser(
@@ -93,5 +92,4 @@ public class CompletedQuizController {
             return ResponseEntity.notFound().build();
         }
     }
-
 }

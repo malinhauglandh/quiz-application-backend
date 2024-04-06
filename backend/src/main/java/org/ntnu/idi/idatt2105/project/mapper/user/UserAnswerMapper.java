@@ -5,9 +5,8 @@ import org.ntnu.idi.idatt2105.project.entity.user.UserAnswer;
 import org.springframework.stereotype.Component;
 
 /**
-
- Mapper class for the UserAnswer entity. Converts UserAnswer entities to UserAnswerDTOs. It is
- used to convert UserAnswer entities to UserAnswerDTOs before sending the data to the frontend.
+ * Mapper class for the UserAnswer entity. Converts UserAnswer entities to UserAnswerDTOs. It is
+ * used to convert UserAnswer entities to UserAnswerDTOs before sending the data to the frontend.
  */
 @Component
 public class UserAnswerMapper {

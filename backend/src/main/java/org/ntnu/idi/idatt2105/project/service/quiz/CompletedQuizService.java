@@ -2,7 +2,6 @@ package org.ntnu.idi.idatt2105.project.service.quiz;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -123,7 +122,6 @@ public class CompletedQuizService {
             answerDTO.setExplanation(questionChoice.getExplanation());
             answerDTO.setQuestionText(questionChoice.getQuestion().getQuestionText());
 
-
             UserAnswer userAnswer = new UserAnswer();
             userAnswer.setCompletedQuiz(completedQuiz);
             userAnswer.setQuestionChoice(questionChoice);
@@ -155,13 +153,18 @@ public class CompletedQuizService {
      */
     @Transactional
     public CompletedQuizDTO getLatestCompletedQuizForUser(Long userId, Long quizId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        User user =
+                userRepository
+                        .findById(userId)
+                        .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        Quiz quiz = quizRepository.findById(quizId)
-                .orElseThrow(() -> new EntityNotFoundException("Quiz not found"));
+        Quiz quiz =
+                quizRepository
+                        .findById(quizId)
+                        .orElseThrow(() -> new EntityNotFoundException("Quiz not found"));
 
-        List<CompletedQuiz> completedQuizzes = completedQuizRepository.findByUserAndQuiz(user, quiz);
+        List<CompletedQuiz> completedQuizzes =
+                completedQuizRepository.findByUserAndQuiz(user, quiz);
 
         if (completedQuizzes.isEmpty()) {
             throw new EntityNotFoundException("Completed quizzes not found");
@@ -170,11 +173,13 @@ public class CompletedQuizService {
         CompletedQuiz latestCompletedQuiz = completedQuizzes.get(completedQuizzes.size() - 1);
 
         CompletedQuizDTO dto = completedQuizMapper.convertToCompletedQuizDTO(latestCompletedQuiz);
-        List<UserAnswerDTO> userAnswerDTOs = userAnswerRepository
-                .findByCompletedQuizCompletedQuizId(latestCompletedQuiz.getCompletedQuizId())
-                .stream()
-                .map(userAnswerMapper::convertUserAnswerToDTO)
-                .collect(Collectors.toList());
+        List<UserAnswerDTO> userAnswerDTOs =
+                userAnswerRepository
+                        .findByCompletedQuizCompletedQuizId(
+                                latestCompletedQuiz.getCompletedQuizId())
+                        .stream()
+                        .map(userAnswerMapper::convertUserAnswerToDTO)
+                        .collect(Collectors.toList());
         dto.setUserAnswers(userAnswerDTOs);
         return dto;
     }
