@@ -1,10 +1,9 @@
 package org.ntnu.idi.idatt2105.project.controller.question;
 
-import java.util.List;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import org.ntnu.idi.idatt2105.project.dto.question.QuestionChoiceDTO;
 import org.ntnu.idi.idatt2105.project.dto.question.QuestionDTO;
 import org.ntnu.idi.idatt2105.project.entity.question.Question;
@@ -69,11 +68,12 @@ public class QuestionController {
      * @param file file
      * @return questionDTO
      */
-    @Operation(summary = "Create a new question",
-    responses = {
-            @ApiResponse(responseCode = "200", description = "Question created"),
-            @ApiResponse(responseCode = "400", description = "Invalid input")
-    })
+    @Operation(
+            summary = "Create a new question",
+            responses = {
+                @ApiResponse(responseCode = "200", description = "Question created"),
+                @ApiResponse(responseCode = "400", description = "Invalid input")
+            })
     @PostMapping("/create")
     public ResponseEntity<QuestionDTO> createQuestion(
             @RequestParam("questionText") String questionText,

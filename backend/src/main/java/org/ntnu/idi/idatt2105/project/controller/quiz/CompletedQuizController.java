@@ -1,11 +1,10 @@
 package org.ntnu.idi.idatt2105.project.controller.quiz;
 
-import java.util.List;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import org.ntnu.idi.idatt2105.project.dto.quiz.CompletedQuizDTO;
 import org.ntnu.idi.idatt2105.project.dto.user.UserAnswerDTO;
 import org.ntnu.idi.idatt2105.project.service.quiz.CompletedQuizService;
@@ -40,15 +39,16 @@ public class CompletedQuizController {
      * @param answers The answers submitted by the user
      * @return ResponseEntity with the completed quiz
      */
-    @Operation(summary = "Submit answers to a quiz",
-    parameters = {
-        @Parameter(name = "quizId", description = "The id of the quiz"),
-        @Parameter(name = "answers", description = "The answers submitted by the user")
-    },
-    responses = {
-        @ApiResponse(responseCode = "200", description = "Answers submitted"),
-        @ApiResponse(responseCode = "400", description = "Invalid input")
-    })
+    @Operation(
+            summary = "Submit answers to a quiz",
+            parameters = {
+                @Parameter(name = "quizId", description = "The id of the quiz"),
+                @Parameter(name = "answers", description = "The answers submitted by the user")
+            },
+            responses = {
+                @ApiResponse(responseCode = "200", description = "Answers submitted"),
+                @ApiResponse(responseCode = "400", description = "Invalid input")
+            })
     @PostMapping("/{quizId}/submit")
     public ResponseEntity<CompletedQuizDTO> submitAnswers(
             @PathVariable Long quizId, @RequestBody List<UserAnswerDTO> answers) {
@@ -69,11 +69,12 @@ public class CompletedQuizController {
      * @param quizId The id of the quiz
      * @return ResponseEntity with a list of completed quizzes for the user
      */
-    @Operation(summary = "Get completed quizzes for a user",
-    responses = {
-        @ApiResponse(responseCode = "200", description = "Completed quizzes found"),
-        @ApiResponse(responseCode = "404", description = "Completed quizzes not found")
-    })
+    @Operation(
+            summary = "Get completed quizzes for a user",
+            responses = {
+                @ApiResponse(responseCode = "200", description = "Completed quizzes found"),
+                @ApiResponse(responseCode = "404", description = "Completed quizzes not found")
+            })
     @GetMapping("/{quizId}")
     public ResponseEntity<List<CompletedQuizDTO>> getCompletedQuizzesForUser(
             @PathVariable Long quizId) {
