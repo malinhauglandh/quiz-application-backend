@@ -1,5 +1,8 @@
 package org.ntnu.idi.idatt2105.project.controller.question;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.ntnu.idi.idatt2105.project.dto.question.QuestionChoiceDTO;
 import org.ntnu.idi.idatt2105.project.dto.question.QuestionDTO;
@@ -18,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/questions")
+@Tag(name = "Question Management", description = "Endpoints for managing questions")
 public class QuestionController {
 
     /** The service class for the question controller. */
@@ -64,6 +68,12 @@ public class QuestionController {
      * @param file file
      * @return questionDTO
      */
+    @Operation(
+            summary = "Create a new question",
+            responses = {
+                @ApiResponse(responseCode = "200", description = "Question created"),
+                @ApiResponse(responseCode = "400", description = "Invalid input")
+            })
     @PostMapping("/create")
     public ResponseEntity<QuestionDTO> createQuestion(
             @RequestParam("questionText") String questionText,
@@ -104,6 +114,12 @@ public class QuestionController {
      *
      * @return list of questions
      */
+    @Operation(
+            summary = "Get all questions",
+            responses = {
+                @ApiResponse(responseCode = "200", description = "Questions found"),
+                @ApiResponse(responseCode = "404", description = "Questions not found")
+            })
     @GetMapping("/allQuestions")
     public ResponseEntity<List<QuestionDTO>> getAllQuestions() {
         List<QuestionDTO> questions = questionService.getAllQuestions();
