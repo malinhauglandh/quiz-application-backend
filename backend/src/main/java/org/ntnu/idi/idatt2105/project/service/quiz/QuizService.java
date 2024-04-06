@@ -2,7 +2,10 @@ package org.ntnu.idi.idatt2105.project.service.quiz;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import org.ntnu.idi.idatt2105.project.dto.quiz.QuizDTO;
+
+import jakarta.persistence.EntityNotFoundException;
+import org.ntnu.idi.idatt2105.project.dto.quiz.CreateQuizDTO;
+import org.ntnu.idi.idatt2105.project.dto.quiz.QuizWithQuestionsDTO;
 import org.ntnu.idi.idatt2105.project.entity.Category;
 import org.ntnu.idi.idatt2105.project.entity.quiz.Quiz;
 import org.ntnu.idi.idatt2105.project.entity.user.User;
@@ -14,6 +17,7 @@ import org.ntnu.idi.idatt2105.project.repository.quiz.QuizRepository;
 import org.ntnu.idi.idatt2105.project.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /** Service class for Quiz */
 @Service
@@ -55,7 +59,7 @@ public class QuizService {
      * @param quizDTO The quiz to create
      * @return The created quiz
      */
-    public QuizDTO createQuiz(QuizDTO quizDTO) {
+    public CreateQuizDTO createQuiz(CreateQuizDTO quizDTO) {
         Quiz quiz = quizMapper.toEntity(quizDTO);
 
         Category category =
@@ -80,7 +84,7 @@ public class QuizService {
      *
      * @return A list of all quizzes
      */
-    public List<QuizDTO> getAllQuizzes() {
+    public List<CreateQuizDTO> getAllQuizzes() {
         List<Quiz> quizzes = quizRepository.findAll();
 
         return quizzes.stream().map(quizMapper::toDto).collect(Collectors.toList());
@@ -116,5 +120,20 @@ public class QuizService {
     public List<Quiz> getQuizzesByCreatorIdAndQuizId(Long creatorId, Long quizId) {
         return quizRepository.findByCreator_UserIdAndQuizId(creatorId, quizId);
 
+    }
+
+    /**
+     * Get a quiz with its questions
+     *
+     * @param quizId The id of the quiz
+     * @return The quiz with its questions
+     */
+    @Transactional(readOnly = true)
+    public QuizWithQuestionsDTO getQuizWithQuestions(Long quizId) {
+        Quiz quiz = quizRepository.findByIdWithQuestions(quizId);
+        if (quiz == null) {
+            throw new EntityNotFoundException("Quiz with ID " + quizId + " not found");
+        }
+        return quizMapper.toQuizWithQuestionsDTO(quiz);
     }
 }

@@ -7,6 +7,7 @@ import java.util.Set;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.ntnu.idi.idatt2105.project.entity.Category;
 import org.ntnu.idi.idatt2105.project.entity.question.Question;
 import org.ntnu.idi.idatt2105.project.entity.user.User;
@@ -15,6 +16,7 @@ import org.ntnu.idi.idatt2105.project.entity.user.User;
 @Entity
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @Table(name = "quiz")
 @Schema(description = "A quiz in the application.")
