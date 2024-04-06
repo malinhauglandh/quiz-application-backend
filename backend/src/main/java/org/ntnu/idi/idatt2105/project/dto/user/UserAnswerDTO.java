@@ -12,4 +12,8 @@ public class UserAnswerDTO {
     private Long userAnswerId;
     private Long completedQuizId;
     private Long questionChoiceId;
+    private String choice;
+    private boolean isCorrect;
+    private String explanation;
+    private String questionText;
 }
