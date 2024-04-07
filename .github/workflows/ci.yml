@@ -66,4 +66,4 @@ jobs:
 
     # Placeholder for running tests
     - name: Run Tests
-      run: echo "No tests specified"
+      run: mvn test
