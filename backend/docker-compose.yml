@@ -29,3 +29,7 @@ services:
 volumes:
   db-data:
   uploads:
+
+networks:
+  backend_my-network:
+    driver: bridge
