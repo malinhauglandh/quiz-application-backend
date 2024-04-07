@@ -177,10 +177,13 @@ public class QuizController {
                 @Parameter(name = "quizId", description = "The id of the quiz")
             },
             responses = {
-                @ApiResponse(responseCode = "200", description = "Quiz by creator and quizId found"),
-                @ApiResponse(responseCode = "404", description = "Quiz by creator and quizId not found")
-            }
-    )
+                @ApiResponse(
+                        responseCode = "200",
+                        description = "Quiz by creator and quizId found"),
+                @ApiResponse(
+                        responseCode = "404",
+                        description = "Quiz by creator and quizId not found")
+            })
     @GetMapping("/user/{creatorId}/{quizId}")
     public ResponseEntity<List<QuizDTO>> getQuizzesByCreatorAndQuizId(
             @PathVariable Long creatorId, @PathVariable Long quizId) {
