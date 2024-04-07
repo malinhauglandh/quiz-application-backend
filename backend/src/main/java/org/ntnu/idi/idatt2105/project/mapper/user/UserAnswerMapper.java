@@ -26,6 +26,13 @@ public class UserAnswerMapper {
                         ? userAnswer.getQuestionChoice().getQuizChoiceId()
                         : null);
 
+        if (userAnswer.getQuestionChoice() != null) {
+            dto.setChoice(userAnswer.getQuestionChoice().getChoice());
+            dto.setCorrect(userAnswer.getQuestionChoice().isCorrectChoice());
+            dto.setExplanation(userAnswer.getQuestionChoice().getExplanation());
+            dto.setQuestionText(userAnswer.getQuestionChoice().getQuestion().getQuestionText());
+        }
+
         return dto;
     }
 }
