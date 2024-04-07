@@ -4,7 +4,7 @@ The Quiz Application is developed in conjunction with a voluntary project for th
 
 Our project was made using Java and Spring Boot for backend development, paired with Vue for the frontend. The design of the application ensures a seamless experience across both PC and mobile devices. 
 
-Additionally, the project features three pre-created accounts, each populated with sample data to showcase the application's capabilities and facilitate immediate user engagement.
+Additionally, the project features mock data that includes three pre-created accounts, each populated with sample data to showcase the application's capabilities and facilitate immediate user engagement.
 
 #### User account 1
 - username: user1
@@ -41,6 +41,15 @@ Additionally, the project features three pre-created accounts, each populated wi
 
 ### Docker 
 The project integrates Docker to encapsulate the different environments. This integration simplifies the setup process, allowing users to quickly and efficiently launch the database, the backend, and the frontend of the system with minimal effort.
+
+### Database Setup with Mock Data
+Our application comes with a pre-populated data.sql script that contains insert statements for mock data, which includes pre-made users and sample data entries. You need to inject this mock data into your database. Here is how you can do it:
+
+1. Locate the data.sql script in the project repository
+2. Open a database management tool
+3. Connect to the database
+4. Open a new SQL query tab and load the data.sql script content into it
+5. Execute the script to populate the database with the mock data
 
 ### Backend
 In order to run the backend you need to build and start the docker container:
