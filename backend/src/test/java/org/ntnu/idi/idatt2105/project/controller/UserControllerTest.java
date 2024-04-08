@@ -102,17 +102,6 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.accessToken").value("access-token"));
     }
 
-    /*@Test
-    public void loginFailureInvalidCredentials() throws Exception {
-        when(userService.login(any(User.class))).thenThrow(new InvalidCredentialsException("Invalid username/password combination"));
-
-        mockMvc.perform(post("/api/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{ \"username\": \"wrongUser\", \"password\": \"wrongPassword\" }"))
-                .andExpect(status().isUnauthorized())
-                .andExpect(content().string(containsString("Login failed: Invalid username/password combination")));
-    }*/
-
     @Test
     public void verifyRefreshTokenSuccess() throws Exception {
         when(tokenService.refreshToken(any(HttpServletRequest.class)))
