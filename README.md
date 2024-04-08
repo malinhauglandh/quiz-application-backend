@@ -129,6 +129,14 @@ The Continuous Integration (CI) pipeline for our backend is automated to handle 
 
 Continuous Deployment is currently set up to work locally. When changes are successfully integrated through our CI pipeline, the updated Docker images are created and can be run on any developer's machine using Docker Compose. This local deployment process ensures that all team members can work with the application in a consistent environment, mirroring production settings.
 
+We adopt a feature branch workflow, where new features and fixes are developed in separate branches, derived from our main development branch (dev). This approach allows our team members to work on various aspects of the project simultaneously without interfering with the stable version of the application.
+
+Development Branch (dev): Serves as the primary branch where the latest developments are merged. This branch is continuously integrated and tested through our CI pipeline.
+
+Master Branch: Reserved for deployment-ready code. Once features and updates are thoroughly tested and validated in the dev branch, they are merged into the master branch. The code in the master branch represents the version of our application that is ready for production deployment.
+
+By implementing these CI/CD practices, we ensure that our development process is efficient, our team can collaborate effectively, and our application remains robust and reliable at all times.
+
 ## Contributors
 
 - Eline Evje
