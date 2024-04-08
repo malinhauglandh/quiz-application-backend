@@ -18,7 +18,7 @@ import org.ntnu.idi.idatt2105.project.entity.quiz.Quiz;
 @Setter
 @NoArgsConstructor
 @Table(
-        name = "user",
+        name = "'user'",
         uniqueConstraints = {
             @UniqueConstraint(name = "UK_user_email", columnNames = "email"),
             @UniqueConstraint(name = "UK_user_username", columnNames = "username")
