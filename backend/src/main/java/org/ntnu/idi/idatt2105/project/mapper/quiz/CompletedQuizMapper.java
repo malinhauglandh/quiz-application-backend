@@ -24,11 +24,11 @@ public class CompletedQuizMapper {
         }
 
         CompletedQuizDTO dto = new CompletedQuizDTO();
-        dto.setCompletedQuizId((long) completedQuiz.getCompletedQuizId());
+        dto.setCompletedQuizId(completedQuiz.getCompletedQuizId());
         dto.setScore(completedQuiz.getScore());
-        dto.setQuizId((long) completedQuiz.getQuiz().getQuizId());
-        dto.setUserId((long) completedQuiz.getUser().getUserId());
-        dto.setCompletedQuizId((long) completedQuiz.getCompletedQuizId());
+        dto.setQuizId(completedQuiz.getQuiz().getQuizId());
+        dto.setUserId(completedQuiz.getUser().getUserId());
+        dto.setCompletedQuizId(completedQuiz.getCompletedQuizId());
         return dto;
     }
 }
