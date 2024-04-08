@@ -1,0 +1,67 @@
+name: CI Workflow
+
+on:
+  push:
+    branches-ignore:
+      - master  # Ignore master since it's used rarely
+  pull_request:
+    branches:
+      - dev  # Trigger on PRs to dev
+
+jobs:
+  build-with-maven:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    # Setup environment
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    
+    # Cache Maven packages to speed up builds
+    - name: Cache Maven packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+
+    # Build with Maven
+    - name: Build with Maven
+      run: mvn -B package --file backend/pom.xml -DskipTests
+
+  code-linting:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    # Run Spotless check
+    - name: Run Spotless Check
+      run: mvn spotless:check
+      working-directory: ./backend
+
+  build-docker-image:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    # Build Docker image on dev and master branch
+    - name: Build and Push Docker image
+      if: github.event_name == 'push' && (github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/master')
+      run: |
+        docker build -t fullstack1/quiz-application-backend:${{ github.sha }} -f backend/Dockerfile backend
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        docker push fullstack1/quiz-application-backend:${{ github.sha }}
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    # Placeholder for running tests
