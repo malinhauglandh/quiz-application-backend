@@ -34,8 +34,8 @@ public class QuestionTypeController {
     /**
      * Endpoint for getting all question types.
      *
-     * @return ResponseEntity with status 200 and a list of question types if found, or status 404 if
-     *     no question types were found
+     * @return ResponseEntity with status 200 and a list of question types if found, or status 404
+     *     if no question types were found
      */
     @Operation(
             summary = "Get all question types",

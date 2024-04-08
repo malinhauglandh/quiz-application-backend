@@ -6,15 +6,15 @@ import org.ntnu.idi.idatt2105.project.entity.user.User;
 import org.springframework.stereotype.Component;
 
 /**
- * Mapper class for the User entity. Converts User entities to UserDTOs.
- * It is used to convert User entities to UserDTOs before sending the data to the
- * frontend.
+ * Mapper class for the User entity. Converts User entities to UserDTOs. It is used to convert User
+ * entities to UserDTOs before sending the data to the frontend.
  */
 @Component
 public class UserMapper {
 
     /**
      * Converts a User entity to a UserDTO.
+     *
      * @param user The User entity to convert.
      * @return The UserDTO.
      */
@@ -24,6 +24,7 @@ public class UserMapper {
 
     /**
      * Converts a UserDTO to a User entity.
+     *
      * @param userDTO The UserDTO to convert.
      * @return The User entity.
      */
@@ -36,6 +37,7 @@ public class UserMapper {
 
     /**
      * Converts a User entity to a UserCreationDTO.
+     *
      * @param user The User entity to convert.
      * @return The UserCreationDTO.
      */
@@ -45,6 +47,7 @@ public class UserMapper {
 
     /**
      * Converts a UserCreationDTO to a User entity.
+     *
      * @param userCreationDTO The UserCreationDTO to convert.
      * @return The User entity.
      */
