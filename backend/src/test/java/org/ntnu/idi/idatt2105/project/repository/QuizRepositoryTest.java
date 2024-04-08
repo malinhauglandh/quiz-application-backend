@@ -1,5 +1,8 @@
 package org.ntnu.idi.idatt2105.project.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,23 +16,17 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class QuizRepositoryTest {
 
-    @Autowired
-    private QuizRepository quizRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private CategoryRepository categoryRepository;
+    @Autowired private QuizRepository quizRepository;
+    @Autowired private UserRepository userRepository;
+    @Autowired private CategoryRepository categoryRepository;
 
     private User savedUser;
+
     @BeforeEach
     void setUp() {
         User user = new User();
@@ -78,7 +75,10 @@ public class QuizRepositoryTest {
 
         assertThat(foundQuizzes)
                 .isNotEmpty()
-                .allMatch(quiz -> quiz.getQuizId().equals(quizId) && quiz.getCreator().getUserId().equals(creatorId));
+                .allMatch(
+                        quiz ->
+                                quiz.getQuizId().equals(quizId)
+                                        && quiz.getCreator().getUserId().equals(creatorId));
     }
 
     @Test

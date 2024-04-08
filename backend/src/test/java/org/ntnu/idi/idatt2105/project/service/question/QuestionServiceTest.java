@@ -1,11 +1,13 @@
 package org.ntnu.idi.idatt2105.project.service.question;
 
-import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,29 +18,20 @@ import org.ntnu.idi.idatt2105.project.dto.question.QuestionDTO;
 import org.ntnu.idi.idatt2105.project.entity.question.Question;
 import org.ntnu.idi.idatt2105.project.mapper.question.QuestionMapper;
 import org.ntnu.idi.idatt2105.project.repository.question.QuestionRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.ntnu.idi.idatt2105.project.service.question.QuestionService;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
 class QuestionServiceTest {
 
-    @Mock
-    private QuestionRepository questionRepository;
+    @Mock private QuestionRepository questionRepository;
 
-    @Mock
-    private QuestionMapper questionMapper;
+    @Mock private QuestionMapper questionMapper;
 
-    @Mock
-    private ObjectMapper objectMapper;
+    @Mock private ObjectMapper objectMapper;
 
-    @InjectMocks
-    private QuestionService questionService;
+    @InjectMocks private QuestionService questionService;
 
     @BeforeEach
     void setUp() {
@@ -83,8 +76,11 @@ class QuestionServiceTest {
     @Test
     void testParseChoicesWithParsingFailure() throws JsonProcessingException {
         String invalidJson = "invalid json";
-        doThrow(JsonProcessingException.class).when(objectMapper).readValue(anyString(), any(TypeReference.class));
+        doThrow(JsonProcessingException.class)
+                .when(objectMapper)
+                .readValue(anyString(), any(TypeReference.class));
 
-        assertThrows(ResponseStatusException.class, () -> questionService.parseChoices(invalidJson));
+        assertThrows(
+                ResponseStatusException.class, () -> questionService.parseChoices(invalidJson));
     }
 }

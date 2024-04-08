@@ -115,6 +115,5 @@ public class QuizService {
      */
     public List<Quiz> getQuizzesByCreatorIdAndQuizId(Long creatorId, Long quizId) {
         return quizRepository.findByCreator_UserIdAndQuizId(creatorId, quizId);
-
     }
 }

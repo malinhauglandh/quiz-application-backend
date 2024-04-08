@@ -2,10 +2,12 @@ package org.ntnu.idi.idatt2105.project.controller;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,33 +26,27 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.Arrays;
-import java.util.List;
-
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(QuestionTypeController.class)
 class QuestionTypeControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+    @Autowired private MockMvc mockMvc;
 
-    @MockBean
-    private QuestionTypeService questionTypeService;
+    @MockBean private QuestionTypeService questionTypeService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    @Autowired private ObjectMapper objectMapper;
 
-    @Autowired
-    private WebApplicationContext context;
+    @Autowired private WebApplicationContext context;
 
     @BeforeEach
     void setup() {
-        this.mockMvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .apply(SecurityMockMvcConfigurers.springSecurity())
-                .build();
+        this.mockMvc =
+                MockMvcBuilders.webAppContextSetup(context)
+                        .apply(SecurityMockMvcConfigurers.springSecurity())
+                        .build();
     }
+
     @Test
     @WithMockUser
     void getAllQuestionTypes() throws Exception {
@@ -66,10 +62,8 @@ class QuestionTypeControllerTest {
 
         given(questionTypeService.findAllTypes()).willReturn(allQuestionTypes);
 
-        mockMvc.perform(get("/api/tags")
-                        .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/api/tags").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(allQuestionTypes)));
     }
 }
-

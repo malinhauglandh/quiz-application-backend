@@ -1,6 +1,16 @@
 package org.ntnu.idi.idatt2105.project.controller;
 
+import static org.hamcrest.core.StringContains.containsString;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,37 +31,21 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.hamcrest.core.StringContains.containsString;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ActiveProfiles("test")
 @WebMvcTest(UserController.class)
 @ExtendWith(MockitoExtension.class)
 public class UserControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+    @Autowired private MockMvc mockMvc;
 
-    @MockBean
-    private UserService userService;
+    @MockBean private UserService userService;
 
-    @MockBean
-    private TokenService tokenService;
+    @MockBean private TokenService tokenService;
 
-    @MockBean
-    private UserMapper userMapper;
+    @MockBean private UserMapper userMapper;
 
-    @InjectMocks
-    private UserController userController;
+    @InjectMocks private UserController userController;
 
     @BeforeEach
     public void setup(WebApplicationContext webApplicationContext) {
@@ -60,7 +54,8 @@ public class UserControllerTest {
 
     @Test
     public void verifyCreateUserSuccess() throws Exception {
-        UserCreationDTO userCreationDTO = new UserCreationDTO("testUser", "password", "user@test.com");
+        UserCreationDTO userCreationDTO =
+                new UserCreationDTO("testUser", "password", "user@test.com");
         User user = new User();
         user.setUsername(userCreationDTO.getUsername());
         user.setPassword(userCreationDTO.getPassword());
@@ -75,9 +70,11 @@ public class UserControllerTest {
 
         when(tokenService.fetchTokens(anyString())).thenReturn(tokens);
 
-        mockMvc.perform(post("/api/createUser")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{ \"username\": \"testUser\", \"password\": \"password\", \"email\": \"test@example.com\" }"))
+        mockMvc.perform(
+                        post("/api/createUser")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(
+                                        "{ \"username\": \"testUser\", \"password\": \"password\", \"email\": \"test@example.com\" }"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accessToken").value("access-token"));
     }
@@ -96,13 +93,14 @@ public class UserControllerTest {
         when(userMapper.toUser(any(UserLoginDTO.class))).thenReturn(user);
         when(userService.login(any(User.class))).thenReturn(tokens);
 
-        mockMvc.perform(post("/api/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{ \"username\": \"testUser\", \"password\": \"password\" }"))
+        mockMvc.perform(
+                        post("/api/login")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(
+                                        "{ \"username\": \"testUser\", \"password\": \"password\" }"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accessToken").value("access-token"));
     }
-
 
     /*@Test
     public void loginFailureInvalidCredentials() throws Exception {
@@ -117,20 +115,20 @@ public class UserControllerTest {
 
     @Test
     public void verifyRefreshTokenSuccess() throws Exception {
-        when(tokenService.refreshToken(any(HttpServletRequest.class))).thenReturn("new-access-token");
+        when(tokenService.refreshToken(any(HttpServletRequest.class)))
+                .thenReturn("new-access-token");
 
-        mockMvc.perform(get("/api/refreshToken")
-                        .header("Authorization", "Bearer expiredToken"))
+        mockMvc.perform(get("/api/refreshToken").header("Authorization", "Bearer expiredToken"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("new-access-token"));
     }
 
     @Test
     public void refreshTokenFailureInvalidToken() throws Exception {
-        when(tokenService.refreshToken(any(HttpServletRequest.class))).thenThrow(new InvalidTokenException("Invalid or expired refresh token"));
+        when(tokenService.refreshToken(any(HttpServletRequest.class)))
+                .thenThrow(new InvalidTokenException("Invalid or expired refresh token"));
 
-        mockMvc.perform(get("/api/refreshToken")
-                        .header("Authorization", "Bearer invalidToken"))
+        mockMvc.perform(get("/api/refreshToken").header("Authorization", "Bearer invalidToken"))
                 .andExpect(status().isUnauthorized())
                 .andExpect(content().string(containsString("Invalid or expired refresh token")));
     }

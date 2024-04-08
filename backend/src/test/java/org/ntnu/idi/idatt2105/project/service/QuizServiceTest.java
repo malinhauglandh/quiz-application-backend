@@ -1,10 +1,10 @@
 package org.ntnu.idi.idatt2105.project.service;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,26 +22,19 @@ import org.ntnu.idi.idatt2105.project.repository.user.UserRepository;
 import org.ntnu.idi.idatt2105.project.service.quiz.QuizService;
 import org.springframework.test.context.ActiveProfiles;
 
-import static org.assertj.core.api.Assertions.*;
-
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
 public class QuizServiceTest {
 
-    @Mock
-    private QuizRepository quizRepository;
+    @Mock private QuizRepository quizRepository;
 
-    @Mock
-    private CategoryRepository categoryRepository;
+    @Mock private CategoryRepository categoryRepository;
 
-    @Mock
-    private UserRepository userRepository;
+    @Mock private UserRepository userRepository;
 
-    @Mock
-    private QuizMapper quizMapper;
+    @Mock private QuizMapper quizMapper;
 
-    @InjectMocks
-    private QuizService quizService;
+    @InjectMocks private QuizService quizService;
 
     private Quiz quiz;
     private QuizDTO quizDTO;
@@ -139,9 +132,11 @@ public class QuizServiceTest {
     @Test
     void verifyGetQuizzesByCreatorIdAndQuizIdReturnsSpecificQuiz() {
         List<Quiz> quizzes = List.of(quiz);
-        when(quizRepository.findByCreator_UserIdAndQuizId(anyLong(), anyLong())).thenReturn(quizzes);
+        when(quizRepository.findByCreator_UserIdAndQuizId(anyLong(), anyLong()))
+                .thenReturn(quizzes);
 
-        List<Quiz> result = quizService.getQuizzesByCreatorIdAndQuizId(user.getUserId(), quiz.getQuizId());
+        List<Quiz> result =
+                quizService.getQuizzesByCreatorIdAndQuizId(user.getUserId(), quiz.getQuizId());
 
         assertThat(result).isNotEmpty();
         assertThat(result.get(0).getQuizId()).isEqualTo(quiz.getQuizId());

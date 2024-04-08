@@ -1,6 +1,14 @@
 package org.ntnu.idi.idatt2105.project.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,34 +30,19 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(controllers = QuestionController.class)
 public class QuestionControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+    @Autowired private MockMvc mockMvc;
 
-    @MockBean
-    private QuestionService questionService;
-    @MockBean
-    private QuizService quizService;
-    @MockBean
-    private QuestionTypeService questionTypeService;
-    @MockBean
-    private QuestionChoiceMapper questionChoiceMapper;
+    @MockBean private QuestionService questionService;
+    @MockBean private QuizService quizService;
+    @MockBean private QuestionTypeService questionTypeService;
+    @MockBean private QuestionChoiceMapper questionChoiceMapper;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    @Autowired private ObjectMapper objectMapper;
 
     @BeforeEach
     public void setup(WebApplicationContext webApplicationContext) {
@@ -64,16 +57,18 @@ public class QuestionControllerTest {
 
         given(questionService.createQuestion(any())).willReturn(questionDTO);
 
-        MockMultipartFile file = new MockMultipartFile("file", "filename.txt", "text/plain", "test".getBytes());
+        MockMultipartFile file =
+                new MockMultipartFile("file", "filename.txt", "text/plain", "test".getBytes());
 
-        mockMvc.perform(multipart("/api/questions/create")
-                        .file(file)
-                        .param("questionText", questionDTO.getQuestionText())
-                        .param("tag", questionDTO.getTag())
-                        .param("quizId", "1")
-                        .param("questionTypeId", "1")
-                        .param("choices", "choice1,choice2")
-                        .contentType(MediaType.MULTIPART_FORM_DATA))
+        mockMvc.perform(
+                        multipart("/api/questions/create")
+                                .file(file)
+                                .param("questionText", questionDTO.getQuestionText())
+                                .param("tag", questionDTO.getTag())
+                                .param("quizId", "1")
+                                .param("questionTypeId", "1")
+                                .param("choices", "choice1,choice2")
+                                .contentType(MediaType.MULTIPART_FORM_DATA))
                 .andExpect(status().isOk());
     }
 

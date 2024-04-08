@@ -7,7 +7,6 @@ import static org.mockito.Mockito.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,11 +20,9 @@ import org.springframework.test.context.ActiveProfiles;
 @ExtendWith(MockitoExtension.class)
 class QuestionTypeServiceTest {
 
-    @Mock
-    private QuestionTypeRepository questionTypeRepository;
+    @Mock private QuestionTypeRepository questionTypeRepository;
 
-    @InjectMocks
-    private QuestionTypeService questionTypeService;
+    @InjectMocks private QuestionTypeService questionTypeService;
 
     @Test
     void verifyCreateQuestionType() {
@@ -43,9 +40,7 @@ class QuestionTypeServiceTest {
 
     @Test
     void verifyFindAllTypesReturnAllTypes() {
-        List<QuestionType> types = Arrays.asList(
-                new QuestionType(),
-                new QuestionType());
+        List<QuestionType> types = Arrays.asList(new QuestionType(), new QuestionType());
 
         when(questionTypeRepository.findAll()).thenReturn(types);
 
