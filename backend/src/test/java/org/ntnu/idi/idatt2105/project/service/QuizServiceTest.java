@@ -11,7 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.ntnu.idi.idatt2105.project.dto.quiz.QuizDTO;
+import org.ntnu.idi.idatt2105.project.dto.quiz.CreateQuizDTO;
 import org.ntnu.idi.idatt2105.project.entity.Category;
 import org.ntnu.idi.idatt2105.project.entity.quiz.Quiz;
 import org.ntnu.idi.idatt2105.project.entity.user.User;
@@ -37,7 +37,7 @@ public class QuizServiceTest {
     @InjectMocks private QuizService quizService;
 
     private Quiz quiz;
-    private QuizDTO quizDTO;
+    private CreateQuizDTO quizDTO;
     private User user;
     private Category category;
 
@@ -59,7 +59,7 @@ public class QuizServiceTest {
         quiz.setCreator(user);
         quiz.setCategory(category);
 
-        quizDTO = new QuizDTO();
+        quizDTO = new CreateQuizDTO();
         quizDTO.setQuizId(quiz.getQuizId());
         quizDTO.setQuizName(quiz.getQuizName());
         quizDTO.setQuizDescription(quiz.getQuizDescription());
@@ -72,11 +72,11 @@ public class QuizServiceTest {
     void verifyCreateQuizCreatesQuiz() {
         when(categoryRepository.findById(anyLong())).thenReturn(Optional.of(category));
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
-        when(quizMapper.toEntity(any(QuizDTO.class))).thenReturn(quiz);
+        when(quizMapper.toEntity(any(CreateQuizDTO.class))).thenReturn(quiz);
         when(quizRepository.save(any(Quiz.class))).thenReturn(quiz);
         when(quizMapper.toDto(any(Quiz.class))).thenReturn(quizDTO);
 
-        QuizDTO createdQuiz = quizService.createQuiz(quizDTO);
+        CreateQuizDTO createdQuiz = quizService.createQuiz(quizDTO);
 
         assertThat(createdQuiz).isNotNull();
         assertThat(createdQuiz.getQuizId()).isEqualTo(quiz.getQuizId());
@@ -89,7 +89,7 @@ public class QuizServiceTest {
         when(quizRepository.findAll()).thenReturn(quizzes);
         when(quizMapper.toDto(any(Quiz.class))).thenReturn(quizDTO);
 
-        List<QuizDTO> retrievedQuizzes = quizService.getAllQuizzes();
+        List<CreateQuizDTO> retrievedQuizzes = quizService.getAllQuizzes();
 
         assertThat(retrievedQuizzes).isNotEmpty();
         assertThat(retrievedQuizzes.size()).isEqualTo(quizzes.size());

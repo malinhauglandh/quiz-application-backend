@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.ntnu.idi.idatt2105.project.controller.quiz.QuizController;
-import org.ntnu.idi.idatt2105.project.dto.quiz.QuizDTO;
+import org.ntnu.idi.idatt2105.project.dto.quiz.CreateQuizDTO;
 import org.ntnu.idi.idatt2105.project.mapper.quiz.QuizMapper;
 import org.ntnu.idi.idatt2105.project.service.FileStorageService;
 import org.ntnu.idi.idatt2105.project.service.quiz.QuizService;
@@ -42,14 +42,14 @@ class QuizControllerTest {
 
     @Test
     void createQuiz() throws Exception {
-        QuizDTO quizDTO = new QuizDTO();
+        CreateQuizDTO quizDTO = new CreateQuizDTO();
         quizDTO.setQuizName("Test Quiz");
         quizDTO.setQuizDescription("Test Description");
         quizDTO.setDifficultyLevel("Easy");
         quizDTO.setCategoryId(1L);
         quizDTO.setCreatorId(1L);
 
-        given(quizService.createQuiz(any(QuizDTO.class))).willReturn(quizDTO);
+        given(quizService.createQuiz(any(CreateQuizDTO.class))).willReturn(quizDTO);
 
         MockMultipartFile file =
                 new MockMultipartFile(
