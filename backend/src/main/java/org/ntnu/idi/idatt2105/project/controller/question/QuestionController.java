@@ -100,7 +100,7 @@ public class QuestionController {
         List<QuestionChoice> mappedChoices =
                 choiceDTOs.stream()
                         .map(
-                                dto ->
+                                   dto ->
                                         questionChoiceMapper.questionChoiceDTOToQuestionChoice(
                                                 dto, question))
                         .toList();
