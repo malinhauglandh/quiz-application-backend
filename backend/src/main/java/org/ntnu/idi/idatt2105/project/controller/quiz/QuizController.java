@@ -6,9 +6,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.ntnu.idi.idatt2105.project.dto.question.QuestionDTO;
 import org.ntnu.idi.idatt2105.project.dto.quiz.CreateQuizDTO;
 import org.ntnu.idi.idatt2105.project.dto.quiz.QuizWithQuestionsDTO;
 import org.ntnu.idi.idatt2105.project.entity.quiz.Quiz;
+import org.ntnu.idi.idatt2105.project.exception.QuizNotFoundException;
 import org.ntnu.idi.idatt2105.project.mapper.quiz.QuizMapper;
 import org.ntnu.idi.idatt2105.project.service.*;
 import org.ntnu.idi.idatt2105.project.service.quiz.QuizService;
@@ -227,5 +230,43 @@ public class QuizController {
     public ResponseEntity<QuizWithQuestionsDTO> getQuizDetails(@PathVariable Long quizId) {
         QuizWithQuestionsDTO quizWithQuestions = quizService.getQuizWithQuestions(quizId);
         return ResponseEntity.ok(quizWithQuestions);
+    }
+
+    /**
+     * Delete a quiz by its id.
+     * @param quizId id of the quiz
+     * @return response
+     */
+    @Operation(
+            summary = "Delete a quiz by its ID",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Quiz deleted successfully"),
+                    @ApiResponse(responseCode = "404", description = "Quiz not found")
+            }
+    )
+    @DeleteMapping("/{quizId}")
+    public ResponseEntity<String> deleteQuiz(@PathVariable Long quizId) {
+        try {
+            quizService.deleteQuiz(quizId);
+            return ResponseEntity.ok("Quiz deleted successfully");
+        } catch (Exception e) {
+            throw new QuizNotFoundException("Quiz not found");
+        }
+    }
+
+    /**
+
+     Get a question from a quiz by its id.*
+     @param quizId id of the quiz
+     @param questionId id of the question
+     @return quizDTO
+     */
+    @Operation(
+            summary = "Get a question from a quiz by its id",
+            parameters = {@Parameter(name = "quizId", description = "The id of the quiz"),@Parameter(name = "questionId", description = "The id of the question")},
+            responses = {@ApiResponse(responseCode = "200", description = "Question found"),@ApiResponse(responseCode = "404", description = "Question not found")})@GetMapping("/{quizId}/question/{questionId}")
+    public ResponseEntity<QuestionDTO> getQuestionById(@PathVariable Long quizId, @PathVariable Long questionId) {
+        QuestionDTO question = quizService.getQuestionById(quizId, questionId);
+        return ResponseEntity.ok(question);
     }
 }

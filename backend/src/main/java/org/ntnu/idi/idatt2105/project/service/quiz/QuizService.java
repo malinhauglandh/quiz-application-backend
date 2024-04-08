@@ -4,13 +4,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.ntnu.idi.idatt2105.project.dto.question.QuestionDTO;
 import org.ntnu.idi.idatt2105.project.dto.quiz.CreateQuizDTO;
 import org.ntnu.idi.idatt2105.project.dto.quiz.QuizWithQuestionsDTO;
 import org.ntnu.idi.idatt2105.project.entity.Category;
+import org.ntnu.idi.idatt2105.project.entity.question.Question;
 import org.ntnu.idi.idatt2105.project.entity.quiz.Quiz;
 import org.ntnu.idi.idatt2105.project.entity.user.User;
 import org.ntnu.idi.idatt2105.project.exception.CategoryNotFoundException;
+import org.ntnu.idi.idatt2105.project.exception.QuizNotFoundException;
 import org.ntnu.idi.idatt2105.project.exception.UserNotFoundException;
+import org.ntnu.idi.idatt2105.project.mapper.question.QuestionMapper;
 import org.ntnu.idi.idatt2105.project.mapper.quiz.QuizMapper;
 import org.ntnu.idi.idatt2105.project.repository.CategoryRepository;
 import org.ntnu.idi.idatt2105.project.repository.quiz.QuizRepository;
@@ -35,6 +39,9 @@ public class QuizService {
     /** Mapper for Quiz */
     private final QuizMapper quizMapper;
 
+    /** Mapper for Question */
+    private final QuestionMapper questionMapper;
+
     /**
      * Constructor for QuizService
      *
@@ -46,11 +53,13 @@ public class QuizService {
             QuizRepository quizRepository,
             CategoryRepository categoryRepository,
             UserRepository userRepository,
-            QuizMapper quizMapper) {
+            QuizMapper quizMapper,
+            QuestionMapper questionMapper) {
         this.quizRepository = quizRepository;
         this.categoryRepository = categoryRepository;
         this.userRepository = userRepository;
         this.quizMapper = quizMapper;
+        this.questionMapper = questionMapper;
     }
 
     /**
@@ -135,5 +144,34 @@ public class QuizService {
             throw new EntityNotFoundException("Quiz with ID " + quizId + " not found");
         }
         return quizMapper.toQuizWithQuestionsDTO(quiz);
+    }
+
+    /**
+     * Delete a quiz by its id
+     * @param quizId for the quiz to delete
+     */
+    public void deleteQuiz(Long quizId) {
+        if(!quizRepository.existsById(quizId)) {
+            throw new QuizNotFoundException("Quiz not found");
+        } else {
+            quizRepository.deleteById(quizId);
+        }
+    }
+
+
+    /**
+
+     Get a question by its id from a quiz.**/
+    public QuestionDTO getQuestionById(Long quizId, Long questionId) {
+        Quiz quiz = quizRepository.findById(quizId).orElseThrow(() ->
+                new EntityNotFoundException("Quiz with ID " + quizId + " not found"));
+
+        Question question = quiz.getQuestionList().stream()
+                .filter(q -> q.getQuestionId().equals(questionId))
+                .findFirst()
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Question with ID " + questionId + " not found"));
+
+        return questionMapper.questionToQuestionDTO(question);
     }
 }
