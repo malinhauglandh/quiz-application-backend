@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.ntnu.idi.idatt2105.project.dto.CategoryDTO;
 import org.ntnu.idi.idatt2105.project.entity.Category;
 import org.ntnu.idi.idatt2105.project.repository.CategoryRepository;
@@ -67,7 +66,7 @@ public class CategoryController {
      * Gets a category by id.
      *
      * @param id id
-     * @return category
+     * @return category by id
      */
     @Operation(
             summary = "Get a category by id",
@@ -86,7 +85,7 @@ public class CategoryController {
     /**
      * Finds all categories.
      *
-     * @return categories
+     * @return all categories
      */
     @Operation(
             summary = "Get all categories",
@@ -101,6 +100,6 @@ public class CategoryController {
                         category ->
                                 new CategoryDTO(
                                         category.getCategory_id(), category.getCategoryName()))
-                .collect(Collectors.toList());
+                .toList();
     }
 }

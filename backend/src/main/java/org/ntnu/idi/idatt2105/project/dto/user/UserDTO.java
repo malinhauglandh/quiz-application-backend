@@ -8,7 +8,13 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class UserDTO {
+
+    /** The username of the user. */
     private String username;
+
+    /** The id of the user. */
     private String id;
+
+    /** The email of the user. */
     private String email;
 }

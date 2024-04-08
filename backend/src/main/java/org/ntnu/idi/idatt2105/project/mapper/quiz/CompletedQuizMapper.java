@@ -11,6 +11,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CompletedQuizMapper {
+
+    /**
+     * Converts a CompletedQuiz entity to a CompletedQuizDTO.
+     *
+     * @param completedQuiz The CompletedQuiz entity to convert.
+     * @return The CompletedQuizDTO.
+     */
     public CompletedQuizDTO convertToCompletedQuizDTO(CompletedQuiz completedQuiz) {
         if (completedQuiz == null) {
             return null;

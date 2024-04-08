@@ -31,23 +31,12 @@ public class QuestionTypeController {
         this.questionTypeService = questionTypeService;
     }
 
-    /*
-    @Operation(
-            summary = "Get a question type by id",
-            parameters = {@Parameter(name = "id", description = "Question type id")},
-            responses = {
-                @ApiResponse(responseCode = "200", description = "Question type found"),
-                @ApiResponse(responseCode = "404", description = "Question type not found")
-            })
-    @GetMapping("/{id}")
-    public ResponseEntity<QuestionType> getQuestionTypeById(@PathVariable Long id) {
-        Optional<QuestionType> questiontype = questionTypeService.findTypeByID(id);
-        return questiontype
-                .map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-    */
-
+    /**
+     * Endpoint for getting all question types.
+     *
+     * @return ResponseEntity with status 200 and a list of question types if found, or status 404 if
+     *     no question types were found
+     */
     @Operation(
             summary = "Get all question types",
             responses = {

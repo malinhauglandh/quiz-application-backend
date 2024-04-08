@@ -8,6 +8,10 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class UserLoginDTO {
+
+    /** The username of the user. */
     private String username;
+
+    /** The password of the user. */
     private String password;
 }
