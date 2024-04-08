@@ -75,4 +75,15 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> handleException(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
     }
+
+    /**
+     * Handles QuizNotFoundException.
+     *
+     * @param ex The exception that was thrown
+     * @return A response entity with the exception message and status code to the client
+     */
+    @ExceptionHandler(QuizNotFoundException.class)
+    public ResponseEntity<Object> handleQuizNotFoundException(QuizNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
 }
