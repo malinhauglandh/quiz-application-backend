@@ -59,7 +59,7 @@ INSERT INTO question_choices (choice, explanation, is_correct_choice, question_i
 -- Science Quiz Choices
 INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Thomas Edison', 'Thomas Edison invented the light bulb', true, 6);
 INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Albert Einstein', 'Albert Einstein did not invent the light bulb', false, 6);
-INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Thomas Jefferson', 'Thomas Jefferson did not invent the light bulb', true, 7);
+INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Thomas Jefferson', 'Thomas Jefferson did not invent the light bulb', true, 6);
 INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('true', 'Correct!', true, 7);
 INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('false', 'There are 206 bones in the human body', false, 7);
 INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('7', 'There are 7 colors in the rainbow', true, 8);
@@ -72,24 +72,24 @@ INSERT INTO question_choices (choice, explanation, is_correct_choice, question_i
 INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Antarctica', 'Correct', true, 10);
 
 -- History Quiz Choices
-INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Paris', 'Paris is the capital of France', true, 9);
-INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('London', 'London is not the capital of France', false, 9);
-INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Oslo', 'Oslo is the capital of Norway', true, 10);
-INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Stockholm', 'Stockholm is not the capital of Norway', false, 10);
-INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('false', 'World War II started in 1939', false, 11);
-INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('true', 'World War II started in 1939', true, 11);
-INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Ada Lovelace', 'Ada Lovelace was the first computer programmer, she created a program for an Analytical Engine', true, 12);
-INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Alan Turing', 'Alan Turing was not the first computer programmer', false, 12);
-INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Linus Torvalds', 'Linus Torvalds was not the first computer programmer', false, 12);
+INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Paris', 'Paris is the capital of France', true, 11);
+INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('London', 'London is not the capital of France', false, 11);
+INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Oslo', 'Oslo is the capital of Norway', true, 12);
+INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Stockholm', 'Stockholm is not the capital of Norway', false, 12);
+INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('false', 'World War II started in 1939', false, 13);
+INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('true', 'World War II started in 1939', true, 13);
+INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Ada Lovelace', 'Ada Lovelace was the first computer programmer, she created a program for an Analytical Engine', true, 14);
+INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Alan Turing', 'Alan Turing was not the first computer programmer', false, 14);
+INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Linus Torvalds', 'Linus Torvalds was not the first computer programmer', false, 14);
 
 -- Random Quiz Choices
-INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('true', 'The Earth is round', false, 13);
-INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('false', 'The Earth is round', true, 13);
-INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('true', 'This is actually true, even bigger than dinosaurs', true, 14);
-INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('false', 'They are the biggest animals to have ever lived', false, 14);
-INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Flour', 'Flour is an ingredient in a cake', false, 15);
-INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Sugar', 'Sugar is an ingredient in a cake', false, 15);
-INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Sement', 'Sement is not an ingredient in a cake', true, 15);
-INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('A killer', 'This is not correct', false, 16);
-INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('A murder', 'Correct! Scary right?', true, 16);
-INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('A pack', 'Wrong answer!', false, 16);
+INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('true', 'The Earth is round', false, 15);
+INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('false', 'The Earth is round', true, 15);
+INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('true', 'This is actually true, even bigger than dinosaurs', true, 16);
+INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('false', 'They are the biggest animals to have ever lived', false, 16);
+INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Flour', 'Flour is an ingredient in a cake', false, 17);
+INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Sugar', 'Sugar is an ingredient in a cake', false, 17);
+INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('Sement', 'Sement is not an ingredient in a cake', true, 17);
+INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('A killer', 'This is not correct', false, 18);
+INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('A murder', 'Correct! Scary right?', true, 18);
+INSERT INTO question_choices (choice, explanation, is_correct_choice, question_id) VALUES ('A pack', 'Wrong answer!', false, 18);
