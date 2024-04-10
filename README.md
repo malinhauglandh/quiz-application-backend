@@ -36,6 +36,7 @@ Additionally, the project features mock data that includes three pre-created acc
 - Questions can be of the type multiple choice, true or false, or fill in the blank
 - Play a quiz and get the results 
 - Get an overview of all the quizzes you have made
+- Search on quiz name 
 
 ## Installation
 
